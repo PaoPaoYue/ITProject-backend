@@ -1,6 +1,8 @@
 package com.ypp.itproject;
 
 import com.ypp.itproject.entity.Student;
+import com.ypp.itproject.jwt.config.JwtProperties;
+import com.ypp.itproject.jwt.core.JwtManager;
 import com.ypp.itproject.service.IStudentService;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -18,15 +20,12 @@ class ItprojectApplicationTests {
 	@Autowired
 	ApplicationContext ioc;
 
-
 	@Autowired
-	IStudentService service;
+	JwtManager manager;
 
 	@Test
 	void contextLoads() {
-		Student student = service.getById(0);
-		logger.info(student.toString());
-		Assert.notNull(student, "get student failed");
+		Assert.notNull(manager, "get student failed");
 		logger.info("success");
 	}
 

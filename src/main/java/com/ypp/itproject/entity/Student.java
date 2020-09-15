@@ -1,5 +1,7 @@
 package com.ypp.itproject.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 
@@ -15,9 +17,12 @@ public class Student extends Model<Student> {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     private String username;
+
+    private String password;
 
     private String description;
 
@@ -28,6 +33,7 @@ public class Student extends Model<Student> {
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getUsername() {
         return username;
     }
@@ -35,12 +41,20 @@ public class Student extends Model<Student> {
     public void setUsername(String username) {
         this.username = username;
     }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -56,4 +70,6 @@ public class Student extends Model<Student> {
         ", description=" + description +
         "}";
     }
+
+
 }
