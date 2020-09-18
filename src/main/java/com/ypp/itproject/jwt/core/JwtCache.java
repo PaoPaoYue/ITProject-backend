@@ -36,14 +36,8 @@ public class JwtCache {
         return enable;
     }
 
-    public JwtSubject get(String token) {
-        Record record = tokenCache.getIfPresent(token);
-        return record == null ? null : record.subject;
-    }
-
-    public Date getExpiration(String token) {
-        Record record = tokenCache.getIfPresent(token);
-        return record == null ? null : record.expiration;
+    public Record get(String token) {
+        return tokenCache.getIfPresent(token);
     }
 
     public void remove(String token) {

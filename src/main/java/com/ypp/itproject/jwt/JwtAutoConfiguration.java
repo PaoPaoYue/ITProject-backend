@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -24,6 +25,8 @@ public class JwtAutoConfiguration {
 
     private final JwtProperties prop;
 
+    private JwtManager manager;
+
     public JwtAutoConfiguration(JwtProperties prop) {
         this.prop = prop;
     }
@@ -36,22 +39,19 @@ public class JwtAutoConfiguration {
         }
     }
 
+    @Bean
+    public JwtManager JetManager() {
+        return new JwtManager(prop);
+    }
+
     @Autowired
     public void setJetManager(JwtManager manager) {
+        this.manager = manager;
         JwtUtil.setManager(manager);
     }
 
     @Configuration
-    public static class JWTWebMvcConfigurer implements WebMvcConfigurer {
-
-        private final JwtProperties prop;
-
-        private final JwtManager manager;
-
-        public JWTWebMvcConfigurer(JwtProperties prop, JwtManager manager) {
-            this.prop = prop;
-            this.manager = manager;
-        }
+    public class JWTWebMvcConfigurer implements WebMvcConfigurer {
 
         @Override
         public void addInterceptors(InterceptorRegistry registry) {

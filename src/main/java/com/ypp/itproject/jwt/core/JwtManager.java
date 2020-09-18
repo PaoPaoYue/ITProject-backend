@@ -7,14 +7,12 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ypp.itproject.jwt.JwtSubject;
 import com.ypp.itproject.jwt.config.JwtProperties;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.Map;
 
-@Component
 public class JwtManager {
 
     private final JwtProperties prop;
@@ -39,35 +37,43 @@ public class JwtManager {
         return token;
     }
 
-    public String issue(JwtSubject subject, HttpServletResponse response) {
-        String token = issue(subject);
-        setToken(response, token);
-        return token;
+    public String refresh(String token) {
+        if (verify(token) && new Date().getTime() > JWT.decode(token).getExpiresAt().getTime()) {
+            JwtSubject subject = extract(token);
+            if (subject != null) {
+                if (cache.isEnable())
+                    cache.remove(token);
+                return issue(subject);
+            }
+        }
+        return "";
     }
 
     public JwtSubject extract(String token) {
-        JwtSubject subject = null;
-        if (token == null)
+        if (token.isEmpty())
             return null;
-        if (cache.isEnable())
-            subject = extractFromCache(token);
-        if (subject == null)
-            subject = extractFromToken(token);
-        return subject;
-    }
-
-    public JwtSubject extract(HttpServletRequest request) {
-        return extract(getToken(request));
+        if (cache.isEnable()) {
+            JwtCache.Record record = cache.get(token);
+            if (record != null)
+                return record.subject;
+        }
+        return extractFromToken(token);
     }
 
     public boolean verify(String token) {
-        if (cache.isEnable() && extractFromCache(token) != null) {
-            if (new Date().getTime() <= cache.getExpiration(token).getTime() + prop.getRefreshWindow() * 60 *1000) {
-                return true;
-            } else {
-                cache.remove(token);
-                return false;
+        if (token.isEmpty())
+            return false;
+        if (cache.isEnable()) {
+            JwtCache.Record record = cache.get(token);
+            if (record != null) {
+                if (new Date().getTime() <= record.expiration.getTime() + prop.getRefreshWindow() * 60 * 1000) {
+                    return true;
+                } else {
+                    cache.remove(token);
+                    return false;
+                }
             }
+
         }
         try {
             Algorithm algorithm = Algorithm.HMAC256(prop.getSecret());
@@ -92,7 +98,7 @@ public class JwtManager {
         if (auth!=null && auth.startsWith("Bearer ")) {
             return auth.substring(7);
         }
-        return null;
+        return "";
     }
 
     private JwtSubject extractFromToken(String token) {
@@ -114,7 +120,4 @@ public class JwtManager {
         return subject;
     }
 
-    private JwtSubject extractFromCache(String token) {
-        return cache.get(token);
-    }
 }

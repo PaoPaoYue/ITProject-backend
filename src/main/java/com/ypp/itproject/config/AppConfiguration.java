@@ -10,7 +10,7 @@ public class AppConfiguration {
 
     @Configuration
     @MapperScan("com.ypp.itproject.mapper")
-    public static class MybatisPlusConfig {
+    public static class MybatisPlusConfigurer {
 
         @Bean
         public PaginationInterceptor paginationInterceptor() {

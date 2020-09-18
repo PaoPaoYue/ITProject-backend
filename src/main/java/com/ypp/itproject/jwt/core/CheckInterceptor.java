@@ -45,7 +45,7 @@ public class CheckInterceptor implements HandlerInterceptor {
 
             String token = manager.getToken(request);
 
-            if (token == null || !manager.verify(token))
+            if (!manager.verify(token))
                 throw new CheckLoginException();
 
             // 获取权限注解
@@ -54,10 +54,13 @@ public class CheckInterceptor implements HandlerInterceptor {
                 cp = method.getBeanType().getAnnotation(CheckPermission.class);
             }
             if(cp != null) {
+
                 List<String> permissions = Arrays.asList(cp.value());
                 //logger.info("new check permission: " + permissions.toString());
 
                 JwtSubject subject = manager.extract(token);
+                if (subject == null)
+                    throw new CheckPermissionException();
 
                 // 开始验证权限
                 if(cp.any()) {
