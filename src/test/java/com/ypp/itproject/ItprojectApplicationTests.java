@@ -29,4 +29,14 @@ class ItprojectApplicationTests {
 		logger.info("success");
 	}
 
+	private static final String usernamePattern = "^\\w{3,20}$";
+    private static final String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)\\w{8,20}$";
+
+	@Test
+	void playground() {
+		logger.debug(String.valueOf("22222222".matches(passwordPattern)));
+		logger.debug(String.valueOf("aaaaaaaa".matches(passwordPattern)));
+		logger.debug(String.valueOf("2222222_".matches(passwordPattern)));
+	}
+
 }
