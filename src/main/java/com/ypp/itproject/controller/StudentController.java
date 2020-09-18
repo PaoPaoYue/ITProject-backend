@@ -2,6 +2,9 @@ package com.ypp.itproject.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.google.common.base.Charsets;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
 import com.ypp.itproject.exception.RestException;
 import com.ypp.itproject.entity.Student;
 import com.ypp.itproject.jwt.JwtUtil;
@@ -20,7 +23,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author ypp
@@ -32,18 +35,56 @@ public class StudentController {
 
     private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
 
-    IStudentService service;
+    private static final String usernamePattern = "^\\w{3,20}$";
+    private static final String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)\\w{8,20}$";
+
+    private static final HashFunction hf = Hashing.sha256();
+
+    private final IStudentService service;
 
     public StudentController(IStudentService service) {
         this.service = service;
     }
 
-    @GetMapping("/login")
-    Map<String, String> login() {
+    @PostMapping("/register")
+    SuccessWapper register(@RequestBody Student student) throws RestException {
+        logger.debug(student.toString());
+        String username = student.getUsername();
+        String password = student.getPassword();
+        if (username == null || password == null)
+            throw new RestException(0, "no username or password provided");
+        if (!username.matches(usernamePattern))
+            throw new RestException(1, "username non-valid");
+        if (service.getOne(new QueryWrapper<Student>().eq("username", student.getUsername())) != null)
+            throw new RestException(2, "student already exist");
+        if (!password.matches(passwordPattern))
+            throw new RestException(3, "password non-valid");
+        student.setPassword(hf.hashString(password, Charsets.UTF_8).toString());
+        logger.debug(student.getPassword());
+        return new SuccessWapper(service.save(student));
+    }
+
+    @PostMapping("/login")
+    Map<String, String> login(@RequestBody Student student) throws RestException {
+        logger.debug(student.toString());
+        Student actual = service.getOne(new QueryWrapper<Student>().eq("username", student.getUsername()));
+        if (actual == null)
+            throw new RestException(0, "username not found");
+        if (!actual.getPassword().equals(hf.hashString(student.getPassword(), Charsets.UTF_8).toString()))
+            throw new RestException(1, "password incorrect");
+
+        Map<String, String> map = new HashMap<>();
+        String token = JwtUtil.issue(new StudentAuthVo(actual.getId(), actual.getUsername()));
+        map.put("access-token", token);
+        return map;
+    }
+
+    @GetMapping("/token")
+    Map<String, String> token() {
         //check password valid
         Map<String, String> map = new HashMap<>();
         String token = JwtUtil.issue(new StudentAuthVo(1, "paopao"));
-        map.put("jwt", token);
+        map.put("access-token", token);
         return map;
     }
 

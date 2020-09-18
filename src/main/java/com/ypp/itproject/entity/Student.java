@@ -23,7 +23,6 @@ public class Student extends Model<Student> {
 
     private String username;
 
-    @TableField(select = false)
     private String password;
 
     private String description;

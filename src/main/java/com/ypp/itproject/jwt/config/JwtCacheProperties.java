@@ -12,7 +12,7 @@ public class JwtCacheProperties {
     /**
      * token缓存记录过期时间，以分钟为单位
      */
-    private int Expiration = 30;
+    private int expiration = 30;
 
     public boolean isEnable() {
         return enable;
@@ -31,11 +31,11 @@ public class JwtCacheProperties {
     }
 
     public int getExpiration() {
-        return Expiration;
+        return expiration;
     }
 
     public void setExpiration(int expiration) {
-        Expiration = expiration;
+        this.expiration = expiration;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class JwtCacheProperties {
         return "JwtCacheProperties{" +
                 "enable=" + enable +
                 ", size=" + size +
-                ", Expiration=" + Expiration +
+                ", Expiration=" + expiration +
                 '}';
     }
 }

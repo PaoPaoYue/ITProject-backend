@@ -25,11 +25,11 @@ public class JwtManager {
     }
 
     public String issue(JwtSubject subject) {
-        Date expiration = new Date(System.currentTimeMillis() + prop.getMaxAliveMinute() * 60 * 1000);
+        Date expiration = new Date(System.currentTimeMillis() + prop.getMaxAlive() * 60 * 1000);
         Algorithm algorithm = Algorithm.HMAC256(prop.getSecret());
         String token = JWT.create()
                 .withSubject(subject.getClass().getName())
-                .withClaim(prop.getTokenDataName(), subject.getClaims())
+                .withClaim(prop.getJsonKey(), subject.getClaims())
                 .withExpiresAt(expiration)
                 .sign(algorithm);
         if (cache.isEnable())
@@ -78,7 +78,7 @@ public class JwtManager {
         try {
             Algorithm algorithm = Algorithm.HMAC256(prop.getSecret());
             JWTVerifier verifier = JWT.require(algorithm)
-                    .acceptExpiresAt(this.prop.getMaxIdleMinute() * 60)
+                    .acceptExpiresAt(this.prop.getMaxIdle() * 60)
                     .build();
             verifier.verify(token);
             if (cache.isEnable())
@@ -108,7 +108,7 @@ public class JwtManager {
             DecodedJWT decodedJWT = JWT.decode(token);
             Map<String, Claim> claims = decodedJWT.getClaims();
             String subjectName = claims.get("sub").asString();
-            data = claims.get(prop.getTokenDataName()).asMap();
+            data = claims.get(prop.getJsonKey()).asMap();
             Class<?> clazz = Class.forName(subjectName);
             subject = (JwtSubject) clazz.newInstance();
         } catch (Exception e) {

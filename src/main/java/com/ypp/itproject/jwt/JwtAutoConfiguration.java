@@ -34,7 +34,7 @@ public class JwtAutoConfiguration {
     @PostConstruct
     public void afterConstruct() {
         logger.info("JWT configuration starts with properties:" + prop);
-        if (prop.getMaxIdleMinute() < prop.getMaxAliveMinute()) {
+        if (prop.getMaxIdle() < prop.getMaxAlive()) {
             throw new IllegalArgumentException("maxIdleMinute must be larger than maxAliveMinute");
         }
     }
@@ -56,7 +56,7 @@ public class JwtAutoConfiguration {
         @Override
         public void addInterceptors(InterceptorRegistry registry) {
             registry.addInterceptor(new CheckInterceptor(manager)).addPathPatterns("/**");
-            if (prop.isEnableAutoRefreshToken())
+            if (prop.isAutoRefresh())
                 registry.addInterceptor(new AutoRefreshInterceptor(manager)).addPathPatterns("/**");
         }
 
