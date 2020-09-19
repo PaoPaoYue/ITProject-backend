@@ -1,6 +1,6 @@
 package com.ypp.itproject.service;
 
-import com.ypp.itproject.entity.Student;
+import com.ypp.itproject.entity.Users;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author ethan
  * @since 2020-09-20
  */
-public interface IStudentService extends IService<Student> {
+public interface IUsersService extends IService<Users> {
 
 }

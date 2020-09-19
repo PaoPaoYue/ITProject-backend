@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ypp.itproject.mapper.UsersMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ypp.itproject.entity.Users">
+        <id column="uid" property="uid" />
+        <result column="password" property="password" />
+        <result column="name" property="name" />
+        <result column="email" property="email" />
+        <result column="status" property="status" />
+        <result column="description" property="description" />
+        <result column="location" property="location" />
+        <result column="createTime" property="createTime" />
+        <result column="tag" property="tag" />
+        <result column="contact_phone" property="contactPhone" />
+        <result column="simpleDescription" property="simpleDescription" />
+        <result column="dducation" property="dducation" />
+        <result column="profileImageLink" property="profileImageLink" />
+        <result column="displayname" property="displayname" />
+        <result column="contact_facebook" property="contactFacebook" />
+        <result column="contact_linkedin" property="contactLinkedin" />
+        <result column="contact_github" property="contactGithub" />
+        <result column="work" property="work" />
+        <result column="skillset" property="skillset" />
+    </resultMap>
+
+</mapper>

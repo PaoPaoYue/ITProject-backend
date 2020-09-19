@@ -1,8 +1,8 @@
 package com.ypp.itproject.service.impl;
 
-import com.ypp.itproject.entity.Student;
-import com.ypp.itproject.mapper.StudentMapper;
-import com.ypp.itproject.service.IStudentService;
+import com.ypp.itproject.entity.Users;
+import com.ypp.itproject.mapper.UsersMapper;
+import com.ypp.itproject.service.IUsersService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2020-09-20
  */
 @Service
-public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> implements IStudentService {
+public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements IUsersService {
 
 }
