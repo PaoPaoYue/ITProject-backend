@@ -47,7 +47,7 @@ public class Users extends Model<Users> {
     @TableField("simpleDescription")
     private String simpleDescription;
 
-    private String dducation;
+    private String education;
 
     @TableField("profileImageLink")
     private String profileImageLink;
@@ -141,12 +141,12 @@ public class Users extends Model<Users> {
     public void setSimpleDescription(String simpleDescription) {
         this.simpleDescription = simpleDescription;
     }
-    public String getDducation() {
-        return dducation;
+    public String getEducation() {
+        return education;
     }
 
-    public void setDducation(String dducation) {
-        this.dducation = dducation;
+    public void setEducation(String education) {
+        this.education = education;
     }
     public String getProfileImageLink() {
         return profileImageLink;
@@ -217,7 +217,7 @@ public class Users extends Model<Users> {
         ", tag=" + tag +
         ", contactPhone=" + contactPhone +
         ", simpleDescription=" + simpleDescription +
-        ", dducation=" + dducation +
+        ", education=" + education +
         ", profileImageLink=" + profileImageLink +
         ", displayname=" + displayname +
         ", contactFacebook=" + contactFacebook +
