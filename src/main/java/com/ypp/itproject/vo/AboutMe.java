@@ -3,39 +3,40 @@ package com.ypp.itproject.vo;
 import com.ypp.itproject.entity.Users;
 
 public class AboutMe{
-    private String displayName;
+    private String displayname;
     private String email;
     private String description;
+    private String simpleDescription;
     private String location;
     private String education;
     private String profileImageLink;
-    private String fb;
-    private String linkedin;
-    private String github;
+    private String contactFacebook;
+    private String contactLinkedin;
+    private String contactGithub;
     private String work;
     private String skillSet;
 
     public AboutMe(Users user){
-        this.displayName = user.getDisplayname();
+        this.displayname = user.getDisplayname();
         this.profileImageLink = user.getProfileImageLink();
         this.location = user.getLocation();
         this.description = user.getDescription();
+        this.simpleDescription = user.getSimpleDescription();
         this.email = user.getEmail();
         this.education = user.getEducation();
-        this.github= user.getContactGithub();
-        this.fb= user.getContactFacebook();
-        this.linkedin= user.getContactLinkedin();
-        this.github = user.getContactGithub();
+        this.contactFacebook= user.getContactFacebook();
+        this.contactLinkedin= user.getContactLinkedin();
+        this.contactGithub = user.getContactGithub();
         this.work = user.getWork();
         this.skillSet = user.getSkillset();
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getDisplayname() {
+        return displayname;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setDisplayname(String displayname) {
+        this.displayname = displayname;
     }
 
     public String getEmail() {
@@ -52,6 +53,14 @@ public class AboutMe{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSimpleDescription() {
+        return simpleDescription;
+    }
+
+    public void setSimpleDescription(String simpleDescription) {
+        this.simpleDescription = simpleDescription;
     }
 
     public String getLocation() {
@@ -78,28 +87,28 @@ public class AboutMe{
         this.profileImageLink = profileImageLink;
     }
 
-    public String getFb() {
-        return fb;
+    public String getContactFacebook() {
+        return contactFacebook;
     }
 
-    public void setFb(String fb) {
-        this.fb = fb;
+    public void setContactFacebook(String contactFacebook) {
+        this.contactFacebook = contactFacebook;
     }
 
-    public String getLinkedin() {
-        return linkedin;
+    public String getContactLinkedin() {
+        return contactLinkedin;
     }
 
-    public void setLinkedin(String linkedin) {
-        this.linkedin = linkedin;
+    public void setContactLinkedin(String contactLinkedin) {
+        this.contactLinkedin = contactLinkedin;
     }
 
-    public String getGithub() {
-        return github;
+    public String getContactGithub() {
+        return contactGithub;
     }
 
-    public void setGithub(String github) {
-        this.github = github;
+    public void setContactGithub(String contactGithub) {
+        this.contactGithub = contactGithub;
     }
 
     public String getWork() {
@@ -121,16 +130,16 @@ public class AboutMe{
     @Override
     public String toString() {
         return "Users{" +
-                "displayname=" + displayName +
+                "displayname=" + displayname +
                 ", email=" + email +
                 ", description=" + description +
                 ", location=" + location +
                 ", simpleDescription=" + description +
                 ", education=" + education +
                 ", profileImageLink=" + profileImageLink +
-                ", contactFacebook=" + fb +
-                ", contactLinkedin=" + linkedin +
-                ", contactGithub=" + github +
+                ", contactFacebook=" + contactFacebook +
+                ", contactLinkedin=" + contactLinkedin +
+                ", contactGithub=" + contactGithub +
                 ", work=" + work +
                 ", skillset=" + skillSet +
                 "}";
