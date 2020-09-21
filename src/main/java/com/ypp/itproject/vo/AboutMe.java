@@ -1,4 +1,6 @@
-package com.ypp.itproject.entity;
+package com.ypp.itproject.vo;
+
+import com.ypp.itproject.entity.Users;
 
 public class AboutMe{
     private String displayName;
