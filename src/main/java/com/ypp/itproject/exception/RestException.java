@@ -3,19 +3,19 @@ package com.ypp.itproject.exception;
 public class RestException extends Exception {
 
     private int code;
-    private String msg;
+    private String message;
     private Object data;
 
-    public RestException(int code, String msg) {
+    public RestException(int code, String message) {
         super();
         this.code = code;
-        this.msg = msg;
+        this.message = message;
     }
 
-    public RestException(int code, String msg, Object data) {
+    public RestException(int code, String message, Object data) {
         super();
         this.code = code;
-        this.msg = msg;
+        this.message = message;
         this.data = data;
     }
 
@@ -27,12 +27,12 @@ public class RestException extends Exception {
         return code;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
     public Object getData() {
@@ -45,7 +45,7 @@ public class RestException extends Exception {
 
     @Override
     public String toString() {
-        return this.code + " : " + this.getMsg();
+        return this.code + " : " + this.getMessage();
     }
 
 }

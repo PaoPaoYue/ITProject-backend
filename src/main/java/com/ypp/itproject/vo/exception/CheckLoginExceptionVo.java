@@ -2,24 +2,24 @@ package com.ypp.itproject.vo.exception;
 
 public class CheckLoginExceptionVo {
 
-    private String msg;
+    private String message;
 
-    public CheckLoginExceptionVo(String msg) {
-        this.msg = msg;
+    public CheckLoginExceptionVo(String message) {
+        this.message = message;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
     @Override
     public String toString() {
         return "CheckLoginExceptionVo{" +
-                "msg='" + msg + '\'' +
+                "msg='" + message + '\'' +
                 '}';
     }
 }

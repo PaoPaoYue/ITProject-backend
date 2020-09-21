@@ -90,7 +90,7 @@ public class JwtManager {
     }
 
     public void setToken(HttpServletResponse response, String token) {
-        response.setHeader("refresh-token", token);
+        response.setHeader("Access-Token", token);
     }
 
     public String getToken(HttpServletRequest request) {

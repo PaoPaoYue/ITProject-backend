@@ -115,11 +115,13 @@ public class StudentController {
         return service.list(null);
     }
 
+    @CheckLogin
     @GetMapping("/{id}")
     Student getStudent(@PathVariable int id) throws RestException {
         Student student = service.getById(id);
         if (student == null)
             throw new RestException(0, "student not found");
+        student.setPassword(null);
         return student;
     }
 
