@@ -5,12 +5,12 @@ import com.ypp.itproject.exception.RestException;
 public class RestExceptionVo {
 
     private int code;
-    private String msg;
+    private String message;
     private Object data;
 
     public RestExceptionVo(RestException e) {
         this.code = e.getCode();
-        this.msg = e.getMsg();
+        this.message = e.getMessage();
         this.data = e.getData();
     }
 
@@ -22,12 +22,12 @@ public class RestExceptionVo {
         return code;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
     public Object getData() {
@@ -42,7 +42,7 @@ public class RestExceptionVo {
     public String toString() {
         return "RestExceptionVo{" +
                 "code=" + code +
-                ", msg='" + msg + '\'' +
+                ", msg='" + message + '\'' +
                 ", data=" + data +
                 '}';
     }

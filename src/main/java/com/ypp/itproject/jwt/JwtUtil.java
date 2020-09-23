@@ -13,7 +13,9 @@ public class JwtUtil {
     }
 
     public static String issue(JwtSubject subject) {
-        return manager.issue(subject);
+        String token = manager.issue(subject);
+        manager.setToken(WebMvcUtil.getResponse(), token);
+        return token;
     }
 
     public static JwtSubject extract() {

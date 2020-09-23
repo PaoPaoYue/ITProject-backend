@@ -14,10 +14,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import org.springframework.stereotype.Controller;
+
 /**
  * <p>
  *  前端控制器
  * </p>
+ *
  *
  * @author ethan
  * @since 2020-09-22
@@ -79,5 +84,4 @@ public class UserController {
         user.setUid(1);
         return new SuccessWapper(service.updateById(user));
     }
-
 }

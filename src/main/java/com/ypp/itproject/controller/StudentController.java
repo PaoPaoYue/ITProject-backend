@@ -10,7 +10,8 @@ import com.ypp.itproject.entity.Student;
 import com.ypp.itproject.jwt.JwtUtil;
 import com.ypp.itproject.jwt.annotation.CheckLogin;
 import com.ypp.itproject.jwt.annotation.CheckPermission;
-import com.ypp.itproject.vo.StudentAuthVo;
+import com.ypp.itproject.jwt.exception.CheckPermissionException;
+import com.ypp.itproject.vo.auth.StudentAuthVo;
 import com.ypp.itproject.vo.util.SuccessWapper;
 import com.ypp.itproject.service.IStudentService;
 import org.slf4j.Logger;
@@ -115,13 +116,29 @@ public class StudentController {
         return service.list(null);
     }
 
+
+
+
+
+    @CheckLogin
     @GetMapping("/{id}")
-    Student getStudent(@PathVariable int id) throws RestException {
+    Student getStudent(@PathVariable int id) throws RestException, CheckPermissionException {
+        StudentAuthVo studentAuthVo = (StudentAuthVo) JwtUtil.extract();
+        if (studentAuthVo.getId() != id)
+            throw new CheckPermissionException();
+
         Student student = service.getById(id);
         if (student == null)
             throw new RestException(0, "student not found");
+
+        student.setPassword(null);
         return student;
     }
+
+
+
+
+
 
     @PostMapping("/add")
     SuccessWapper addStudent(@RequestBody Student student) throws RestException {

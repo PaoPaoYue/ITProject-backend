@@ -1,11 +1,8 @@
-package com.ypp.itproject.vo;
+package com.ypp.itproject.vo.auth;
 
 import com.ypp.itproject.jwt.JwtSubject;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class StudentAuthVo implements JwtSubject {
 
@@ -46,7 +43,7 @@ public class StudentAuthVo implements JwtSubject {
 
     @Override
     public List<String> getPermissions() {
-        return Arrays.asList("student");
+        return Collections.singletonList("student");
     }
 
     @Override
