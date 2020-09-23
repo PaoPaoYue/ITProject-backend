@@ -7,14 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UsersAuthVo implements JwtSubject {
+public class UserAuthVo implements JwtSubject {
     private int uid;
     private String username;
 
-    public UsersAuthVo() {
+    public UserAuthVo() {
 
     }
-    public UsersAuthVo(int uid, String username){
+    public UserAuthVo(int uid, String username){
         this.uid=uid;
         this.username=username;
     }

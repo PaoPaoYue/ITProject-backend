@@ -14,8 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.stereotype.Controller;
-
 /**
  * <p>
  *  前端控制器
@@ -24,7 +22,8 @@ import org.springframework.stereotype.Controller;
  * @author ethan
  * @since 2020-09-22
  */
-@Controller
+
+@RestController
 @RequestMapping("/ypp.itproject/user")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(StudentController.class);

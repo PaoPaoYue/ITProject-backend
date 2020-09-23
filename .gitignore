@@ -37,4 +37,4 @@ out/
 src/main/java/com/ypp/itproject/CodeGenerator.java
 
 ###
-.DS_Store
+*.DS_Store
