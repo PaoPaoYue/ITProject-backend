@@ -2,7 +2,7 @@ package com.ypp.itproject.vo;
 
 import com.ypp.itproject.entity.User;
 
-public class Account{
+public class AccountVo {
     private String username;
     private String email;
     private String location;
@@ -18,7 +18,7 @@ public class Account{
     private String status;
     private String password;
 
-    public Account(User user){
+    public AccountVo(User user){
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.location = user.getLocation();

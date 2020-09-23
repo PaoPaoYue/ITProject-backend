@@ -2,22 +2,26 @@ package com.ypp.itproject.vo;
 
 import com.ypp.itproject.entity.User;
 
-public class AboutMe{
-    private String displayname;
+import java.time.LocalDateTime;
+
+public class AboutMeVo{
     private String email;
     private String description;
-    private String simpleDescription;
     private String location;
+    private String phone;
+    private String simpleDescription;
     private String education;
     private String avatar;
+    private String displayName;
     private String contactFacebook;
     private String contactLinkedin;
     private String contactGithub;
     private String work;
-    private String skillSet;
+    private String skillset;
 
-    public AboutMe(User user){
-        this.displayname = user.getDisplayName();
+    public AboutMeVo(User user){
+        this.displayName = user.getDisplayName();
+        this.phone = user.getPhone();
         this.avatar = user.getAvatar();
         this.location = user.getLocation();
         this.description = user.getDescription();
@@ -28,15 +32,7 @@ public class AboutMe{
         this.contactLinkedin= user.getContactLinkedin();
         this.contactGithub = user.getContactGithub();
         this.work = user.getWork();
-        this.skillSet = user.getSkillset();
-    }
-
-    public String getDisplayname() {
-        return displayname;
-    }
-
-    public void setDisplayname(String displayname) {
-        this.displayname = displayname;
+        this.skillset = user.getSkillset();
     }
 
     public String getEmail() {
@@ -55,20 +51,28 @@ public class AboutMe{
         this.description = description;
     }
 
-    public String getSimpleDescription() {
-        return simpleDescription;
-    }
-
-    public void setSimpleDescription(String simpleDescription) {
-        this.simpleDescription = simpleDescription;
-    }
-
     public String getLocation() {
         return location;
     }
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getSimpleDescription() {
+        return simpleDescription;
+    }
+
+    public void setSimpleDescription(String simpleDescription) {
+        this.simpleDescription = simpleDescription;
     }
 
     public String getEducation() {
@@ -85,6 +89,14 @@ public class AboutMe{
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getContactFacebook() {
@@ -119,29 +131,30 @@ public class AboutMe{
         this.work = work;
     }
 
-    public String getSkillSet() {
-        return skillSet;
+    public String getSkillset() {
+        return skillset;
     }
 
-    public void setSkillSet(String skillSet) {
-        this.skillSet = skillSet;
+    public void setSkillset(String skillset) {
+        this.skillset = skillset;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "display_name=" + displayname +
+                "displayname=" + displayName +
                 ", email=" + email +
+                ", phone=" + phone +
+                ", simple_description=" + simpleDescription +
                 ", description=" + description +
                 ", location=" + location +
-                ", simple_description=" + description +
                 ", education=" + education +
                 ", avatar=" + avatar +
                 ", contact_facebook=" + contactFacebook +
                 ", contact_linkedin=" + contactLinkedin +
                 ", contact_github=" + contactGithub +
                 ", work=" + work +
-                ", skillset=" + skillSet +
+                ", skillset=" + skillset +
                 "}";
     }
 

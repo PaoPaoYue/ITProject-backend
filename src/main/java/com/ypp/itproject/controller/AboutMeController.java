@@ -3,7 +3,7 @@ package com.ypp.itproject.controller;
 import com.ypp.itproject.entity.User;
 import com.ypp.itproject.exception.RestException;
 import com.ypp.itproject.service.IUserService;
-import com.ypp.itproject.vo.AboutMe;
+import com.ypp.itproject.vo.AboutMeVo;
 import com.ypp.itproject.jwt.annotation.CheckLogin;
 import com.ypp.itproject.vo.util.SuccessWapper;
 import org.slf4j.Logger;
@@ -24,15 +24,19 @@ public class AboutMeController {
     public AboutMeController(IUserService service) {this.UserService = service;}
 
     @GetMapping(value = "/{uid}")
-    public AboutMe getAboutMe(@PathVariable("uid") int uid){
+    public AboutMeVo getAboutMe(@PathVariable("uid") int uid) throws RestException{
         /*
             Return JSON type response for about me page
             @author: ethan
          */
 
-        //TODO: Check user available, return 422 if yes
         User user = UserService.getById(uid);
-        AboutMe am= new AboutMe(user);
+        if(uid<=0 || user == null){
+            // uid less and equal to zero
+            // user does not exist
+            throw new RestException(422, "user does not exist");
+        }
+        AboutMeVo am= new AboutMeVo(user);
         return am;
     }
 

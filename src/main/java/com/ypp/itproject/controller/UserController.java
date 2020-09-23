@@ -8,7 +8,7 @@ import com.ypp.itproject.entity.User;
 import com.ypp.itproject.exception.RestException;
 import com.ypp.itproject.jwt.annotation.CheckLogin;
 import com.ypp.itproject.service.IUserService;
-import com.ypp.itproject.vo.Account;
+import com.ypp.itproject.vo.AccountVo;
 import com.ypp.itproject.vo.util.SuccessWapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,25 +39,30 @@ public class UserController {
 
     @CheckLogin
     @GetMapping(value = "/user/account/{uid}")
-    public Account getCurrentAccount(@PathVariable("uid") int uid){
+    public AccountVo getCurrentAccount(@PathVariable("uid") int uid) throws RestException{
         /*
             Return current account setting except password
             @author: ethan
          */
         User user = service.getById(uid);
-        Account ac = new Account(user);
+        if(uid<=0 || user == null){
+            // uid less and equal to zero
+            // user does not exist
+            throw new RestException(422, "user does not exist");
+        }
+        AccountVo ac = new AccountVo(user);
         return ac;
     }
 
     @CheckLogin
-    @PostMapping(value = "/user/account/{{uid}}")
+    @PostMapping(value = "/user/account/update")
     SuccessWapper updateAccount(@RequestBody User user) throws RestException {
         /*
             Update username, password, email, location, status
             @author: ethan
          */
         logger.debug(user.toString());
-//        UsersAuthVo userAuthVo = (UsersAuthVo) JwtUtil.extract(); //TODO: Adapt the Users Class
+//        UserAuthVo userAuthVo = (UsersAuthVo) JwtUtil.extract(); //TODO: Adapt the Users Class
 //        if(user.getUid() != userAuthVo.getUid()){
 //            throw new RestException(0, "fake mfk");
 //        }
