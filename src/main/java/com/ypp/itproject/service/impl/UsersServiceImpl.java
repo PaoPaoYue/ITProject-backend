@@ -2,6 +2,8 @@ package com.ypp.itproject.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ypp.itproject.entity.User;
+import com.ypp.itproject.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2020-09-20
  */
 @Service
-public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements IService<Users> {
+public class UsersServiceImpl extends ServiceImpl<UserMapper, User> implements IService<User> {
 
 }
