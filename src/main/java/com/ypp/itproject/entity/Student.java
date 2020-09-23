@@ -11,7 +11,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author ethan
- * @since 2020-09-20
+ * @since 2020-09-22
  */
 public class Student extends Model<Student> {
 

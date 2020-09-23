@@ -1,15 +1,13 @@
 package com.ypp.itproject.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.base.Charsets;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
-import com.ypp.itproject.entity.Student;
-import com.ypp.itproject.entity.Users;
+import com.ypp.itproject.entity.User;
 import com.ypp.itproject.exception.RestException;
 import com.ypp.itproject.jwt.annotation.CheckLogin;
-import com.ypp.itproject.service.IUsersService;
+import com.ypp.itproject.service.IUserService;
 import com.ypp.itproject.vo.Account;
 import com.ypp.itproject.vo.util.SuccessWapper;
 import org.slf4j.Logger;
@@ -24,18 +22,19 @@ import org.springframework.stereotype.Controller;
  * </p>
  *
  * @author ethan
- * @since 2020-09-20
+ * @since 2020-09-22
  */
-@RestController
-public class UsersController {
+@Controller
+@RequestMapping("/ypp.itproject/user")
+public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
     private static final String usernamePattern = "^\\w{3,20}$";
     private static final String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)\\w{8,20}$";
     private static final HashFunction hf = Hashing.sha256();
 
-    private final IUsersService service;
+    private final IUserService service;
 
-    public UsersController(IUsersService service) {
+    public UserController(IUserService service) {
         this.service = service;
     }
 
@@ -46,14 +45,14 @@ public class UsersController {
             Return current account setting except password
             @author: ethan
          */
-        Users user = service.getById(uid);
+        User user = service.getById(uid);
         Account ac = new Account(user);
         return ac;
     }
 
     @CheckLogin
     @PostMapping(value = "/user/account/{{uid}}")
-    SuccessWapper updateAccount(@RequestBody Users user) throws RestException {
+    SuccessWapper updateAccount(@RequestBody User user) throws RestException {
         /*
             Update username, password, email, location, status
             @author: ethan
@@ -64,7 +63,7 @@ public class UsersController {
 //            throw new RestException(0, "fake mfk");
 //        }
 //        Integer uid = userAuthVo.getUid(); //TODO: change to setUid(uid) after the jwtWorks
-        String username = user.getName();
+        String username = user.getUsername();
         String password = user.getPassword();
         if (username == null || password == null)
             throw new RestException(0, "no username or password provided");

@@ -45,7 +45,7 @@ public class UsersAuthVo implements JwtSubject {
 
     @Override
     public List<String> getPermissions() {
-        return Arrays.asList("users");
+        return Arrays.asList("user");
     }
 
     @Override
@@ -62,3 +62,5 @@ public class UsersAuthVo implements JwtSubject {
         return map;
     }
 }
+
+

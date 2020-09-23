@@ -8,8 +8,8 @@
         <result column="uid" property="uid" />
         <result column="title" property="title" />
         <result column="description" property="description" />
-        <result column="collectionType" property="collectionType" />
-        <result column="createDate" property="createDate" />
+        <result column="collection_type" property="collectionType" />
+        <result column="create_date" property="createDate" />
         <result column="tag" property="tag" />
     </resultMap>
 

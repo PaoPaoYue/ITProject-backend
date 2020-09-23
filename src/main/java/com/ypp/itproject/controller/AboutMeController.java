@@ -1,12 +1,8 @@
 package com.ypp.itproject.controller;
 
 import com.ypp.itproject.exception.RestException;
-import com.ypp.itproject.jwt.JwtUtil;
 import com.ypp.itproject.vo.AboutMe;
-import com.ypp.itproject.entity.Users;
 import com.ypp.itproject.jwt.annotation.CheckLogin;
-import com.ypp.itproject.service.IUsersService;
-import com.ypp.itproject.vo.UsersAuthVo;
 import com.ypp.itproject.vo.util.SuccessWapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

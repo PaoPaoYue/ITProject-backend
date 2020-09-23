@@ -1,6 +1,6 @@
 package com.ypp.itproject.mapper;
 
-import com.ypp.itproject.entity.Users;
+import com.ypp.itproject.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author ethan
- * @since 2020-09-20
+ * @since 2020-09-22
  */
-public interface UsersMapper extends BaseMapper<Users> {
+public interface UserMapper extends BaseMapper<User> {
 
 }

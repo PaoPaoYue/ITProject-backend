@@ -7,8 +7,8 @@
         <id column="cid" property="cid" />
         <result column="link" property="link" />
         <result column="uid" property="uid" />
-        <result column="filename" property="filename" />
-        <result column="filetype" property="filetype" />
+        <result column="file_name" property="fileName" />
+        <result column="file_type" property="fileType" />
     </resultMap>
 
 </mapper>

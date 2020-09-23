@@ -1,9 +1,9 @@
 package com.ypp.itproject.vo;
 
-import com.ypp.itproject.entity.Users;
+import com.ypp.itproject.entity.User;
 
 public class Account{
-    private String name;
+    private String username;
     private String email;
     private String location;
 
@@ -18,18 +18,18 @@ public class Account{
     private String status;
     private String password;
 
-    public Account(Users user){
-        this.name = user.getName();
+    public Account(User user){
+        this.username = user.getUsername();
         this.email = user.getEmail();
         this.location = user.getLocation();
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String name) {
+        this.username = name;
     }
 
     public String getEmail() {
@@ -54,8 +54,8 @@ public class Account{
 
     @Override
     public String toString() {
-        return "Users{" +
-                "name=" + name +
+        return "User{" +
+                "username=" + username +
                 ", email=" + email +
                 ", location=" + location +
                 ", status=" + location +

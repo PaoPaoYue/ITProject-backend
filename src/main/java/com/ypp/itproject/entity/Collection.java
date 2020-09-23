@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
 /**
@@ -13,7 +12,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author ethan
- * @since 2020-09-20
+ * @since 2020-09-22
  */
 public class Collection extends Model<Collection> {
 
@@ -40,10 +39,8 @@ public class Collection extends Model<Collection> {
      */
     private String description;
 
-    @TableField("collectionType")
     private String collectionType;
 
-    @TableField("createDate")
     private LocalDate createDate;
 
     private String tag;

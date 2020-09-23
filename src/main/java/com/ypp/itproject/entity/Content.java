@@ -11,7 +11,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author ethan
- * @since 2020-09-20
+ * @since 2020-09-22
  */
 public class Content extends Model<Content> {
 
@@ -33,12 +33,12 @@ public class Content extends Model<Content> {
     /**
      * The name of the content
      */
-    private String filename;
+    private String fileName;
 
     /**
      * Type of the content
      */
-    private String filetype;
+    private String fileType;
 
     public Integer getCid() {
         return cid;
@@ -61,19 +61,19 @@ public class Content extends Model<Content> {
     public void setUid(String uid) {
         this.uid = uid;
     }
-    public String getFilename() {
-        return filename;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
-    public String getFiletype() {
-        return filetype;
+    public String getFileType() {
+        return fileType;
     }
 
-    public void setFiletype(String filetype) {
-        this.filetype = filetype;
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
     }
 
     @Override
@@ -87,8 +87,8 @@ public class Content extends Model<Content> {
         "cid=" + cid +
         ", link=" + link +
         ", uid=" + uid +
-        ", filename=" + filename +
-        ", filetype=" + filetype +
+        ", fileName=" + fileName +
+        ", fileType=" + fileType +
         "}";
     }
 }

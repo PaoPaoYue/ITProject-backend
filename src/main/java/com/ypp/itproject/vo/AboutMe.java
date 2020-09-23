@@ -1,6 +1,6 @@
 package com.ypp.itproject.vo;
 
-import com.ypp.itproject.entity.Users;
+import com.ypp.itproject.entity.User;
 
 public class AboutMe{
     private String displayname;
@@ -9,16 +9,16 @@ public class AboutMe{
     private String simpleDescription;
     private String location;
     private String education;
-    private String profileImageLink;
+    private String avatar;
     private String contactFacebook;
     private String contactLinkedin;
     private String contactGithub;
     private String work;
     private String skillSet;
 
-    public AboutMe(Users user){
-        this.displayname = user.getDisplayname();
-        this.profileImageLink = user.getProfileImageLink();
+    public AboutMe(User user){
+        this.displayname = user.getDisplayName();
+        this.avatar = user.getAvatar();
         this.location = user.getLocation();
         this.description = user.getDescription();
         this.simpleDescription = user.getSimpleDescription();
@@ -79,12 +79,12 @@ public class AboutMe{
         this.education = education;
     }
 
-    public String getProfileImageLink() {
-        return profileImageLink;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setProfileImageLink(String profileImageLink) {
-        this.profileImageLink = profileImageLink;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getContactFacebook() {
@@ -129,17 +129,17 @@ public class AboutMe{
 
     @Override
     public String toString() {
-        return "Users{" +
-                "displayname=" + displayname +
+        return "User{" +
+                "display_name=" + displayname +
                 ", email=" + email +
                 ", description=" + description +
                 ", location=" + location +
-                ", simpleDescription=" + description +
+                ", simple_description=" + description +
                 ", education=" + education +
-                ", profileImageLink=" + profileImageLink +
-                ", contactFacebook=" + contactFacebook +
-                ", contactLinkedin=" + contactLinkedin +
-                ", contactGithub=" + contactGithub +
+                ", avatar=" + avatar +
+                ", contact_facebook=" + contactFacebook +
+                ", contact_linkedin=" + contactLinkedin +
+                ", contact_github=" + contactGithub +
                 ", work=" + work +
                 ", skillset=" + skillSet +
                 "}";

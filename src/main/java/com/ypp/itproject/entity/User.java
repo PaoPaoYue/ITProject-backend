@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
 /**
@@ -13,9 +12,9 @@ import java.io.Serializable;
  * </p>
  *
  * @author ethan
- * @since 2020-09-20
+ * @since 2020-09-22
  */
-public class Users extends Model<Users> {
+public class User extends Model<User> {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,7 +26,7 @@ public class Users extends Model<Users> {
     /**
      * Used for customised URL
      */
-    private String name;
+    private String username;
 
     private String email;
 
@@ -37,22 +36,19 @@ public class Users extends Model<Users> {
 
     private String location;
 
-    @TableField("createTime")
     private LocalDateTime createTime;
 
     private String tag;
 
-    private String contactPhone;
+    private String phone;
 
-    @TableField("simpleDescription")
     private String simpleDescription;
 
     private String education;
 
-    @TableField("profileImageLink")
-    private String profileImageLink;
+    private String avatar;
 
-    private String displayname;
+    private String displayName;
 
     private String contactFacebook;
 
@@ -78,12 +74,12 @@ public class Users extends Model<Users> {
     public void setPassword(String password) {
         this.password = password;
     }
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
     public String getEmail() {
         return email;
@@ -127,12 +123,12 @@ public class Users extends Model<Users> {
     public void setTag(String tag) {
         this.tag = tag;
     }
-    public String getContactPhone() {
-        return contactPhone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setContactPhone(String contactPhone) {
-        this.contactPhone = contactPhone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
     public String getSimpleDescription() {
         return simpleDescription;
@@ -148,19 +144,19 @@ public class Users extends Model<Users> {
     public void setEducation(String education) {
         this.education = education;
     }
-    public String getProfileImageLink() {
-        return profileImageLink;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setProfileImageLink(String profileImageLink) {
-        this.profileImageLink = profileImageLink;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
-    public String getDisplayname() {
-        return displayname;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setDisplayname(String displayname) {
-        this.displayname = displayname;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
     public String getContactFacebook() {
         return contactFacebook;
@@ -205,21 +201,21 @@ public class Users extends Model<Users> {
 
     @Override
     public String toString() {
-        return "Users{" +
+        return "User{" +
         "uid=" + uid +
         ", password=" + password +
-        ", name=" + name +
+        ", username=" + username +
         ", email=" + email +
         ", status=" + status +
         ", description=" + description +
         ", location=" + location +
         ", createTime=" + createTime +
         ", tag=" + tag +
-        ", contactPhone=" + contactPhone +
+        ", phone=" + phone +
         ", simpleDescription=" + simpleDescription +
         ", education=" + education +
-        ", profileImageLink=" + profileImageLink +
-        ", displayname=" + displayname +
+        ", avatar=" + avatar +
+        ", displayName=" + displayName +
         ", contactFacebook=" + contactFacebook +
         ", contactLinkedin=" + contactLinkedin +
         ", contactGithub=" + contactGithub +
