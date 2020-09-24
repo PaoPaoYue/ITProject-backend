@@ -3,33 +3,35 @@ package com.ypp.itproject.vo;
 import com.ypp.itproject.entity.User;
 
 public class AccountVo {
-    private String username;
+    private String displayName;
     private String email;
     private String location;
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    private String description;
 
     private String status;
     private String password;
 
     public AccountVo(User user){
-        this.username = user.getUsername();
+        this.displayName = user.getDisplayName();
         this.email = user.getEmail();
         this.location = user.getLocation();
+        this.description = user.getDescription();
     }
 
-    public String getUsername() {
-        return username;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setUsername(String name) {
-        this.username = name;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getEmail() {
@@ -52,13 +54,20 @@ public class AccountVo {
         this.password = password;
     }
 
+
+    public String getStatus() {
+        return status;
+    }
+
+
     @Override
     public String toString() {
         return "User{" +
-                "username=" + username +
+                "displayname=" + displayName +
                 ", email=" + email +
                 ", location=" + location +
-                ", status=" + location +
+                ", description=" + description +
+                ", status=" + status +
                 "}";
     }
 
