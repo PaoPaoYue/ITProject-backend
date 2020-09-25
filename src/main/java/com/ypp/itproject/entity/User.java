@@ -3,6 +3,8 @@ package com.ypp.itproject.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
@@ -199,6 +201,8 @@ public class User extends Model<User> {
         return this.uid;
     }
 
+
+
     @Override
     public String toString() {
         return "User{" +
@@ -222,5 +226,17 @@ public class User extends Model<User> {
         ", work=" + work +
         ", skillset=" + skillset +
         "}";
+    }
+
+    public boolean isEmpty() throws IllegalAccessException {
+        Boolean flag=false;
+        for(Field f : this.getClass().getDeclaredFields()){
+            f.setAccessible(true);
+            if(f.get(this) == null || f.get(this).equals("")){
+                flag = true;
+                return flag;
+            }
+        }
+        return flag;
     }
 }
