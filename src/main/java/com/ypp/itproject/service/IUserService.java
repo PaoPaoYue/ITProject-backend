@@ -12,5 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-09-22
  */
 public interface IUserService extends IService<User> {
+    public Boolean isExcelled(String content, Integer lengthLimit);
 }
 

@@ -20,15 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
 
-/**
- * <p>
- *  前端控制器
- * </p>
- *
- *
- * @author ethan
- * @since 2020-09-22
- */
+
 
 @RestController
 @RequestMapping("/user")
@@ -57,12 +49,12 @@ public class UserController {
         User user = service.getById(uid);
         if(uid != myUID){
             //uid from the api does not match logged in user
-            throw new RestException(422, "no permission");
+            throw new RestException(0, "no permission");
         }
         if(uid<=0 || user == null){
             // uid less and equal to zero
             // user does not exist
-            throw new RestException(422, "user does not exist");
+            throw new RestException(1, "user does not exist");
         }
         AccountVo ac = new AccountVo(user);
         return ac;
@@ -87,7 +79,7 @@ public class UserController {
         if(user.getPassword() != null){
             SuccessWapper resUpdatePwd = updatePassword(user);
             if(!resUpdatePwd.isSuccess()){
-                throw new RestException(422, "failed setting new password");
+                throw new RestException(0, "failed setting new password");
             }else{
                 user.setPassword(null);
                 if(user.isEmpty()){
@@ -96,10 +88,16 @@ public class UserController {
             }
         }
         if(user.getEmail()!=null && !user.getEmail().matches(emailPattern)){
-            throw new RestException(422, "email address does not match the pattern");
+            throw new RestException(1, "email address does not match the pattern");
         }
         if(user.getUsername()!=null){
-            throw new RestException(422, "username cannot be changed");
+            throw new RestException(2, "username cannot be changed");
+        }
+        if((user.getDescription() != null && service.isExcelled(user.getDescription(), 400)) ||
+                (user.getDisplayName() != null && service.isExcelled(user.getDisplayName(), 50)) ||
+                (user.getSimpleDescription() != null && service.isExcelled(user.getSimpleDescription(), 100))){
+            //length of some fields does not exceed the limitation
+            throw new RestException(3, "field length exceed the limitation");
         }
 
         user.setUid(uid);
@@ -130,15 +128,15 @@ public class UserController {
 
         String newPassword = user.getPassword();
         if(newPassword==null || uid == null){
-            throw new RestException(422, "no password provided");
+            throw new RestException(4, "no password provided");
         }
         if(!newPassword.matches(passwordPattern)){
-            throw new RestException(422, "non-valid password");
+            throw new RestException(5, "non-valid password");
         }
 
         String encryptNewPwd = hf.hashString(newPassword, Charsets.UTF_8).toString();
         if(encryptNewPwd.equals(currentPwd)){
-            throw new RestException(422, "new password cannot be the same as old one");
+            throw new RestException(6, "new password cannot be the same as old one");
         }
         // Password valid, polished, not duplicated, ready to set
         User userWidPwd = new User();

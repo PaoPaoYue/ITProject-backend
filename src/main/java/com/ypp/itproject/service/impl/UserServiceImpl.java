@@ -16,5 +16,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
-
+    public Boolean isExcelled(String content, Integer lengthLimit){
+        Boolean flag = false;
+        if(content.length()>lengthLimit){
+            flag = true;
+        }
+        return flag;
+    }
 }

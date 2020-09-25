@@ -37,7 +37,7 @@ public class AboutMeController {
         if(uid<=0 || user == null){
             // uid less and equal to zero
             // user does not exist
-            throw new RestException(422, "user does not exist");
+            throw new RestException(0, "user does not exist");
         }
         AboutMeVo am= new AboutMeVo(user);
         return am;
@@ -50,13 +50,19 @@ public class AboutMeController {
         Integer uid = userAuthVo.getUid();
         User currentUser = UserService.getById(uid);
         if(currentUser == null){
-            throw new RestException(422, "not login");
+            throw new RestException(0, "not login");
         }
         if(user.getUsername()!=null){
-            throw new RestException(422, "username cannot be changed");
+            throw new RestException(1, "username cannot be changed");
         }
         if(user.getPassword()!=null){
-            throw new RestException(422, "password cannot be updated through this api");
+            throw new RestException(2, "password cannot be updated through this api");
+        }
+        if((user.getDescription() != null && UserService.isExcelled(user.getDescription(), 400)) ||
+                (user.getDisplayName() != null && UserService.isExcelled(user.getDisplayName(), 50)) ||
+                (user.getSimpleDescription() != null && UserService.isExcelled(user.getSimpleDescription(), 100))){
+            //length of some fields does not exceed the limitation
+            throw new RestException(3, "field length exceed the limitation");
         }
         user.setUid(uid);
         return new SuccessWapper(UserService.updateById(user));
