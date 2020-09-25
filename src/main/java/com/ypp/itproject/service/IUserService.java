@@ -2,6 +2,7 @@ package com.ypp.itproject.service;
 
 import com.ypp.itproject.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ypp.itproject.exception.RestException;
 
 /**
  * <p>
@@ -12,6 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-09-22
  */
 public interface IUserService extends IService<User> {
-    public Boolean isExcelled(String content, Integer lengthLimit);
+    public boolean checkLength(User user);
 }
 

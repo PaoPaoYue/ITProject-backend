@@ -9,6 +9,7 @@ import com.ypp.itproject.exception.RestException;
 import com.ypp.itproject.jwt.JwtUtil;
 import com.ypp.itproject.jwt.annotation.CheckLogin;
 import com.ypp.itproject.service.IUserService;
+import com.ypp.itproject.util.StringUtil;
 import com.ypp.itproject.vo.AccountVo;
 import com.ypp.itproject.vo.auth.UserAuthVo;
 import com.ypp.itproject.vo.util.SuccessWapper;
@@ -26,6 +27,9 @@ import org.springframework.stereotype.Controller;
 @RequestMapping("/user")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
+    private static final int MAX_LENGTH_DESCRIPTION = 400;
+    private static final int MAX_LENGTH_SIMPLE_DESCRIPTION = 100;
+    private static final int MAX_LENGTH_DISPLAY_NAME = 50;
     private static final String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)\\w{8,20}$";
     private static final String emailPattern = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
     private static final HashFunction hf = Hashing.sha256();
@@ -93,10 +97,7 @@ public class UserController {
         if(user.getUsername()!=null){
             throw new RestException(2, "username cannot be changed");
         }
-        if((user.getDescription() != null && service.isExcelled(user.getDescription(), 400)) ||
-                (user.getDisplayName() != null && service.isExcelled(user.getDisplayName(), 50)) ||
-                (user.getSimpleDescription() != null && service.isExcelled(user.getSimpleDescription(), 100))){
-            //length of some fields does not exceed the limitation
+        if(service.checkLength(user)){
             throw new RestException(3, "field length exceed the limitation");
         }
 

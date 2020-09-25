@@ -4,6 +4,7 @@ import com.ypp.itproject.entity.User;
 import com.ypp.itproject.exception.RestException;
 import com.ypp.itproject.jwt.JwtUtil;
 import com.ypp.itproject.service.IUserService;
+import com.ypp.itproject.util.StringUtil;
 import com.ypp.itproject.vo.AboutMeVo;
 import com.ypp.itproject.jwt.annotation.CheckLogin;
 import com.ypp.itproject.vo.auth.UserAuthVo;
@@ -43,6 +44,8 @@ public class AboutMeController {
         return am;
     }
 
+
+
     @CheckLogin
     @PostMapping(value = "/about/update")
     SuccessWapper updateAboutMe(@RequestBody User user) throws RestException {
@@ -58,10 +61,8 @@ public class AboutMeController {
         if(user.getPassword()!=null){
             throw new RestException(2, "password cannot be updated through this api");
         }
-        if((user.getDescription() != null && UserService.isExcelled(user.getDescription(), 400)) ||
-                (user.getDisplayName() != null && UserService.isExcelled(user.getDisplayName(), 50)) ||
-                (user.getSimpleDescription() != null && UserService.isExcelled(user.getSimpleDescription(), 100))){
-            //length of some fields does not exceed the limitation
+        if(!UserService.checkLength(user)){
+            //length of some fields exceed the limitation
             throw new RestException(3, "field length exceed the limitation");
         }
         user.setUid(uid);
