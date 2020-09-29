@@ -1,28 +1,24 @@
 package com.ypp.itproject.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.google.common.base.Charsets;
-import com.google.common.hash.HashFunction;
-import com.google.common.hash.Hashing;
 import com.ypp.itproject.entity.User;
-import com.ypp.itproject.exception.RestException;
 import com.ypp.itproject.jwt.JwtUtil;
 import com.ypp.itproject.service.IUserService;
+import com.ypp.itproject.vo.LoginVo;
+import com.ypp.itproject.vo.RegisterVo;
 import com.ypp.itproject.vo.auth.UserAuthVo;
 import com.ypp.itproject.vo.util.SuccessWapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * <p>
- *  前端控制器
+ *  登录授权
  * </p>
  *
  * @author ypp
@@ -32,53 +28,35 @@ import java.util.Map;
 @RequestMapping("/user")
 public class AuthController {
 
-    private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
-
-    private static final String usernamePattern = "^\\w{3,20}$";
-    private static final String emailPattern = "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(.[a-zA-Z0-9_-]+)+$";
-    private static final String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)\\w{8,20}$";
-
-    private static final HashFunction hf = Hashing.sha256();
-
     private final IUserService service;
 
     public AuthController(IUserService service) {
         this.service = service;
     }
 
+    /**
+        Using this API to register a new user with username, email and password
+
+        @author: ypp
+     */
     @PostMapping("/register")
-    SuccessWapper register(@RequestBody User user) throws RestException {
-        logger.debug("new register: " + user.toString());
-        String username = user.getUsername();
-        String password = user.getPassword();
-        String email = user.getEmail();
-        if (username == null || email == null || password == null)
-            throw new RestException(0, "some fields are empty");
-        if (!username.matches(usernamePattern))
-            throw new RestException(1, "invalid username");
-        if (service.getOne(new QueryWrapper<User>().eq("username", user.getUsername())) != null)
-            throw new RestException(2, "user already exist");
-        if (!email.matches(emailPattern))
-            throw new RestException(3, "invalid email");
-        if (!password.matches(passwordPattern))
-            throw new RestException(4, "invalid password");
-        user.setPassword(hf.hashString(password, Charsets.UTF_8).toString());
-        user.setDisplayName(user.getUsername());
-        return new SuccessWapper(service.save(user));
+    public SuccessWapper register(@RequestBody @Valid RegisterVo vo)  {
+        return new SuccessWapper(service.register(vo) != null);
     }
 
-    @PostMapping("/login")
-    Map<String, String> login(@RequestBody User user) throws RestException {
-        logger.debug("new login: " + user.toString());
-        User actual = service.getOne(new QueryWrapper<User>().eq("username", user.getUsername()));
-        if (actual == null)
-            throw new RestException(0, "username not found");
-        if (!actual.getPassword().equals(hf.hashString(user.getPassword(), Charsets.UTF_8).toString()))
-            throw new RestException(1, "password incorrect");
+    /**
+        login with this API, providing username and password
 
-        Map<String, String> map = new HashMap<>();
-        String token = JwtUtil.issue(new UserAuthVo(actual.getUid(), actual.getUsername()));
+        @author: ypp
+     */
+    @PostMapping("/login")
+    public Map<String, Object> login(@RequestBody @Valid LoginVo vo) {
+        User user = service.login(vo);
+
+        Map<String, Object> map = new HashMap<>();
+        String token = JwtUtil.issue(new UserAuthVo(user.getUid(), user.getUsername()));
         map.put("access-token", token);
+        map.put("uid", user.getUid());
         return map;
     }
 

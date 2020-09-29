@@ -4,69 +4,69 @@ import com.ypp.itproject.entity.User;
 import com.ypp.itproject.exception.RestException;
 import com.ypp.itproject.jwt.JwtUtil;
 import com.ypp.itproject.service.IUserService;
-import com.ypp.itproject.util.StringUtil;
 import com.ypp.itproject.vo.AboutMeVo;
 import com.ypp.itproject.jwt.annotation.CheckLogin;
 import com.ypp.itproject.vo.auth.UserAuthVo;
 import com.ypp.itproject.vo.util.SuccessWapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
-/*
-    About Me Page controller
-    @author: ethan
- */
+import javax.validation.Valid;
 
+/**
+ * <p>
+ *  user详情页面
+ * </p>
+ *
+ * @author: ypp
+ * @author: ethan
+ * @since 2020-09-23
+ */
 @RestController
 @RequestMapping("/user")
 public class AboutMeController {
-    private final IUserService UserService;
-    private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
 
-    public AboutMeController(IUserService service) {this.UserService = service;}
+    private final IUserService service;
 
+    public AboutMeController(IUserService service) {this.service = service;}
 
+    /**
+        Using this API to get user information for the aboutMe section, including
+        education, work, skillset, interest, award
+
+        @author: ypp
+        @author: ethan
+     */
     @GetMapping(value = "/about/{uid}")
-    public AboutMeVo getAboutMe(@PathVariable("uid") int uid) throws RestException{
-        /*
-            Return JSON type response for about me page
-            @author: ethan
-         */
+    public AboutMeVo getAboutMe(@PathVariable("uid") int uid) {
 
-        User user = UserService.getById(uid);
-        if(uid<=0 || user == null){
+        if(uid<=0){
             // uid less and equal to zero
-            // user does not exist
-            throw new RestException(0, "user does not exist");
+            throw new RestException(0, "uid must be larger than 0");
         }
-        AboutMeVo am= new AboutMeVo(user);
-        return am;
+        User user = service.getById(uid);
+        if(user == null){
+            // user does not exist
+            throw new RestException(1, "user does not exist");
+        }
+        return new AboutMeVo(user);
     }
 
 
+    /**
+        Using this API to update user information for the aboutMe section, including
+        education, work, skillset, interest, award
 
+        @author: ypp
+        @author: ethan
+     */
     @CheckLogin
     @PostMapping(value = "/about/update")
-    SuccessWapper updateAboutMe(@RequestBody User user) throws RestException {
+    SuccessWapper updateAboutMe(@RequestBody @Valid AboutMeVo vo) {
+
         UserAuthVo userAuthVo = (UserAuthVo) JwtUtil.extract();
-        Integer uid = userAuthVo.getUid();
-        User currentUser = UserService.getById(uid);
-        if(currentUser == null){
-            throw new RestException(0, "not login");
-        }
-        if(user.getUsername()!=null){
-            throw new RestException(1, "username cannot be changed");
-        }
-        if(user.getPassword()!=null){
-            throw new RestException(2, "password cannot be updated through this api");
-        }
-        if(!UserService.checkLength(user)){
-            //length of some fields exceed the limitation
-            throw new RestException(3, "field length exceed the limitation");
-        }
-        user.setUid(uid);
-        return new SuccessWapper(UserService.updateById(user));
+        int uid = userAuthVo.getUid();
+
+        return new SuccessWapper(service.updateAboutMe(uid, vo));
     }
 
 }

@@ -1,43 +1,111 @@
 package com.ypp.itproject.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.google.common.base.Charsets;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
 import com.ypp.itproject.entity.User;
 import com.ypp.itproject.exception.RestException;
 import com.ypp.itproject.mapper.UserMapper;
 import com.ypp.itproject.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ypp.itproject.util.StringUtil;
+import com.ypp.itproject.vo.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 /**
  * <p>
  *  服务实现类
  * </p>
  *
- * @author ethan
+ * @author ypp ethan
  * @since 2020-09-22
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
-    private static final int MAX_LENGTH_DESCRIPTION = 400;
-    private static final int MAX_LENGTH_SIMPLE_DESCRIPTION = 100;
-    private static final int MAX_LENGTH_DISPLAY_NAME = 50;
+
+    private static final Logger logger = LoggerFactory.getLogger(IUserService.class);
+
+    private static final String EDUCATION_INIT = "[]";
+    private static final String WORK_INIT = "[]";
+    private static final String SKILLSET_INIT = "{\"field\":[], \"tech\":[], \"other\":[]}";
+    private static final String INTEREST_INIT = "[]";
+    private static final String AWARD_INIT = "[]";
+
+    private static final HashFunction hf = Hashing.sha256();
 
     @Override
-    public boolean checkLength(User user){
-        /*
-            Return  false if some fields length exceed the limit
-                    true otherwise
-         */
-        boolean flag = true;
-        if((user.getDescription() != null
-                && StringUtil.isExcelled(user.getDescription(), MAX_LENGTH_DESCRIPTION)) ||
-                (user.getDisplayName() != null
-                        &&  StringUtil.isExcelled(user.getDisplayName(), MAX_LENGTH_DISPLAY_NAME)) ||
-                (user.getSimpleDescription() != null
-                        &&  StringUtil.isExcelled(user.getSimpleDescription(), MAX_LENGTH_SIMPLE_DESCRIPTION
-                ))){
-            flag = false;
+    public User register(RegisterVo vo) {
+        if (this.getOne(new QueryWrapper<User>().eq("username", vo.getUsername())) != null)
+            throw new RestException(1, "user already exist");
+
+        User user = new User();
+        user.setUsername(vo.getUsername());
+        user.setEmail(vo.getEmail());
+        user.setPassword(hf.hashString(vo.getPassword(), Charsets.UTF_8).toString());
+        user.setDisplayName(vo.getUsername());
+        user.setEducation(EDUCATION_INIT);
+        user.setWork(WORK_INIT);
+        user.setSkillset(SKILLSET_INIT);
+        user.setInterest(INTEREST_INIT);
+        user.setAward(AWARD_INIT);
+
+        if (this.save(user)) {
+            logger.debug("new register: " + vo.getUsername());
+            return user;
         }
-        return flag;
+        return null;
+    }
+
+    @Override
+    public User login(LoginVo vo) {
+        User user = this.getOne(new QueryWrapper<User>().eq("username",vo.getUsername()));
+        if (user == null)
+            throw new RestException(1, "username not found");
+        if (!user.getPassword().equals(hf.hashString(vo.getPassword(), Charsets.UTF_8).toString()))
+            throw new RestException(2, "password incorrect");
+
+        logger.debug("new login: " + vo.getUsername());
+        return user;
+    }
+
+    @Override
+    public boolean updatePassword(int uid, PasswordVo vo) {
+        String password = hf.hashString(vo.getPassword(), Charsets.UTF_8).toString();
+        if(password.equals(this.getById(uid).getPassword()))
+            throw new RestException(1, "new password cannot be the same as the old one");
+
+        User user = new User();
+        user.setUid(uid);
+        user.setPassword(password);
+        return this.updateById(user);
+    }
+
+    @Override
+    public boolean updateAccount(int uid, AccountVo vo) {
+        logger.debug(vo.toString());
+        User user = vo.toUser();
+        user.setUid(uid);
+        return this.updateById(user);
+    }
+
+    @Override
+    public boolean updateAboutMe(int uid, AboutMeVo vo) {
+        User user = vo.toUser();
+        user.setUid(uid);
+        return this.updateById(user);
+    }
+
+    @Override
+    public boolean updateTags(int uid, Set<String> tags) {
+        User user = new User();
+        user.setUid(uid);
+        user.setTag(String.join(",", tags));
+        return this.updateById(user);
     }
 }
+
+

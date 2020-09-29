@@ -8,6 +8,9 @@ public class RestExceptionVo {
     private String message;
     private Object data;
 
+    public RestExceptionVo() {
+    }
+
     public RestExceptionVo(RestException e) {
         this.code = e.getCode();
         this.message = e.getMessage();

@@ -23,6 +23,8 @@
         <result column="contact_github" property="contactGithub" />
         <result column="work" property="work" />
         <result column="skillset" property="skillset" />
+        <result column="interest" property="interest" />
+        <result column="award" property="award" />
     </resultMap>
 
 </mapper>

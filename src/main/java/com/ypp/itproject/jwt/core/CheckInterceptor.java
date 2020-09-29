@@ -29,8 +29,7 @@ public class CheckInterceptor implements HandlerInterceptor {
      * 每次请求之前触发
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
         // 获取处理method
         if (!(handler instanceof HandlerMethod)) {

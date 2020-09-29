@@ -1,148 +1,118 @@
 package com.ypp.itproject.controller;
 
 
-import com.google.common.base.Charsets;
-import com.google.common.hash.HashFunction;
-import com.google.common.hash.Hashing;
+import com.ypp.itproject.config.AppProperties;
 import com.ypp.itproject.entity.User;
 import com.ypp.itproject.exception.RestException;
 import com.ypp.itproject.jwt.JwtUtil;
 import com.ypp.itproject.jwt.annotation.CheckLogin;
 import com.ypp.itproject.service.IUserService;
-import com.ypp.itproject.util.StringUtil;
 import com.ypp.itproject.vo.AccountVo;
+import com.ypp.itproject.vo.PasswordVo;
 import com.ypp.itproject.vo.auth.UserAuthVo;
 import com.ypp.itproject.vo.util.SuccessWapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.stereotype.Controller;
+import javax.validation.Valid;
 
-
-
+/**
+ * <p>
+ *  user控制器
+ * </p>
+ *
+ * @author: ypp
+ * @author: ethan
+ * @since 2020-09-23
+ */
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
-    private static final int MAX_LENGTH_DESCRIPTION = 400;
-    private static final int MAX_LENGTH_SIMPLE_DESCRIPTION = 100;
-    private static final int MAX_LENGTH_DISPLAY_NAME = 50;
-    private static final String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)\\w{8,20}$";
-    private static final String emailPattern = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
-    private static final HashFunction hf = Hashing.sha256();
+
+    private static final String FACEBOOK_PREFIX = "https://www.facebook.com/";
+    private static final String LINKEDIN_PREFIX = "https://www.linkedin.com/";
+    private static final String GITHUB_PREFIX = "https://github.com/";
+
+    private final AppProperties prop;
 
     private final IUserService service;
 
-    public UserController(IUserService service) {
+    public UserController(AppProperties prop, IUserService service) {
+        this.prop = prop;
         this.service = service;
     }
 
+    /**
+        Using this API to get user information for preview display
 
-    @CheckLogin
+        @author: ypp
+        @author: ethan
+     */
     @GetMapping(value = "/account/{uid}")
-    public AccountVo getCurrentAccount(@PathVariable("uid") int uid) throws RestException{
-        /*
-            Return current account setting except password
-            @author: ethan
-         */
-        UserAuthVo userAuthVo = (UserAuthVo) JwtUtil.extract();
-        Integer myUID = userAuthVo.getUid();//uid extract from jwt
-        User user = service.getById(uid);
-        if(uid != myUID){
-            //uid from the api does not match logged in user
-            throw new RestException(0, "no permission");
-        }
-        if(uid<=0 || user == null){
+    public AccountVo getAccount(@PathVariable("uid") int uid){
+        if(uid<=0){
             // uid less and equal to zero
+            throw new RestException(0, "uid must be larger than 0");
+        }
+        User user = service.getById(uid);
+        if(user == null){
             // user does not exist
             throw new RestException(1, "user does not exist");
         }
-        AccountVo ac = new AccountVo(user);
-        return ac;
+        return new AccountVo(user);
     }
 
+
+    /**
+        Using this API to update fields relates to account settings, which listed below.
+        It can be used to update partial fields relates to user table, with only provide
+        partial key:value pairs in the Payload. Please be aware that username cannot be
+        changed。
+
+        @author: ypp
+        @author: ethan
+     */
     @CheckLogin
     @PostMapping(value = "/account/update")
-    SuccessWapper updateAccount(@RequestBody User user) throws RestException, IllegalAccessException {
-        /*
-            Using this API to update fields relates to account settings, which listed below.
-            It can be used to update partial fields reltes to user table, with only provide
-            partial key:value pairs in the Payload. Please be aware that username cannot be
-            changed, email address will be checked for matching the pattern, password will be
-            checked as well by calling update account_password API.
+    SuccessWapper updateAccount(@RequestBody @Valid AccountVo vo) {
+        // cannot modify username
+        vo.setUsername(null);
 
-            @author: ethan
-         */
+        if (!vo.getAvatar().isEmpty() && !vo.getAvatar().startsWith(prop.getCosImgPath()))
+            throw new RestException(0, "invalid avatar source, must start with " + prop.getCosImgPath());
+        if (!vo.getContactFacebook().isEmpty() && !vo.getContactFacebook().startsWith(FACEBOOK_PREFIX))
+            throw new RestException(0, "invalid Facebook link, must start with " + FACEBOOK_PREFIX);
+        if (!vo.getContactGithub().isEmpty() && !vo.getContactGithub().startsWith(GITHUB_PREFIX))
+            throw new RestException(0, "invalid Github link, must start with " + GITHUB_PREFIX);
+        if (!vo.getContactLinkedin().isEmpty() && !vo.getContactLinkedin().startsWith(LINKEDIN_PREFIX))
+            throw new RestException(0, "invalid Linkedin link, must start with " + LINKEDIN_PREFIX);
 
         UserAuthVo userAuthVo = (UserAuthVo) JwtUtil.extract();
-        Integer uid = userAuthVo.getUid();
+        int uid = userAuthVo.getUid();
 
-        if(user.getPassword() != null){
-            SuccessWapper resUpdatePwd = updatePassword(user);
-            if(!resUpdatePwd.isSuccess()){
-                throw new RestException(0, "failed setting new password");
-            }else{
-                user.setPassword(null);
-                if(user.isEmpty()){
-                    return new SuccessWapper(true);
-                }
-            }
-        }
-        if(user.getEmail()!=null && !user.getEmail().matches(emailPattern)){
-            throw new RestException(1, "email address does not match the pattern");
-        }
-        if(user.getUsername()!=null){
-            throw new RestException(2, "username cannot be changed");
-        }
-        if(service.checkLength(user)){
-            throw new RestException(3, "field length exceed the limitation");
-        }
-
-        user.setUid(uid);
-        return new SuccessWapper(service.updateById(user));
+        return  new SuccessWapper(service.updateAccount(uid, vo));
     }
 
 
+    /**
+        Using this API to update a user's password. User must log in first.
+        Password must differ from the exist one, and matches the patter as well.
+
+        The payload of this API should only contain password field, as the other submitted
+        fields will be ignored.
+
+        @author: ypp
+        @author: ethan
+
+     */
     @CheckLogin
-    @PostMapping(value = "/account/password/update")
-    public SuccessWapper updatePassword(@RequestBody User user) throws RestException{
-        /*
-            Using this API to update a user's password. User must log in first.
-            Password must differ from the exist one, and matches the patter as well.
-            This API can be used by itself, and it is embedded with update account API
-            as well. Put password field into the payload of update account API, and it
-            will using this API for updating password at the backend.
+    @PostMapping(value = "/password/update")
+    public SuccessWapper updatePassword(@RequestBody @Valid PasswordVo vo) {
 
-            The payload of this API should only contain password field, as the other submitted
-            fields will be ignored.
-
-            @author: ethan
-
-         */
         UserAuthVo userAuthVo = (UserAuthVo) JwtUtil.extract();
+        int uid = userAuthVo.getUid();
 
-        Integer uid = userAuthVo.getUid();
-        String currentPwd = service.getById(uid).getPassword();
-
-        String newPassword = user.getPassword();
-        if(newPassword==null || uid == null){
-            throw new RestException(4, "no password provided");
-        }
-        if(!newPassword.matches(passwordPattern)){
-            throw new RestException(5, "non-valid password");
-        }
-
-        String encryptNewPwd = hf.hashString(newPassword, Charsets.UTF_8).toString();
-        if(encryptNewPwd.equals(currentPwd)){
-            throw new RestException(6, "new password cannot be the same as old one");
-        }
-        // Password valid, polished, not duplicated, ready to set
-        User userWidPwd = new User();
-        userWidPwd.setUid(uid);
-        userWidPwd.setPassword(encryptNewPwd);
-        return new SuccessWapper(service.updateById(userWidPwd));
+        return new SuccessWapper(service.updatePassword(uid, vo));
     }
 }
