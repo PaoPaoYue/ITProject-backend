@@ -2,77 +2,39 @@ package com.ypp.itproject.vo;
 
 import com.ypp.itproject.entity.User;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 public class AboutMeVo{
-    private String email;
-    private String description;
-    private String location;
-    private String phone;
-    private String simpleDescription;
+    @NotBlank
     private String education;
-    private String avatar;
-    private String displayName;
-    private String contactFacebook;
-    private String contactLinkedin;
-    private String contactGithub;
+    @NotBlank
     private String work;
+    @NotBlank
     private String skillset;
+    @NotBlank
+    private String interest;
+    @NotBlank
+    private String award;
+
+    public AboutMeVo() {}
 
     public AboutMeVo(User user){
-        this.displayName = user.getDisplayName();
-        this.phone = user.getPhone();
-        this.avatar = user.getAvatar();
-        this.location = user.getLocation();
-        this.description = user.getDescription();
-        this.simpleDescription = user.getSimpleDescription();
-        this.email = user.getEmail();
         this.education = user.getEducation();
-        this.contactFacebook= user.getContactFacebook();
-        this.contactLinkedin= user.getContactLinkedin();
-        this.contactGithub = user.getContactGithub();
         this.work = user.getWork();
         this.skillset = user.getSkillset();
+        this.interest = user.getInterest();
+        this.award = user.getAward();
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getSimpleDescription() {
-        return simpleDescription;
-    }
-
-    public void setSimpleDescription(String simpleDescription) {
-        this.simpleDescription = simpleDescription;
+    public User toUser() {
+        User user = new User();
+        user.setEducation(this.education);
+        user.setWork(this.work);
+        user.setSkillset(this.skillset);
+        user.setInterest(this.interest);
+        user.setAward(this.award);
+        return user;
     }
 
     public String getEducation() {
@@ -81,46 +43,6 @@ public class AboutMeVo{
 
     public void setEducation(String education) {
         this.education = education;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getContactFacebook() {
-        return contactFacebook;
-    }
-
-    public void setContactFacebook(String contactFacebook) {
-        this.contactFacebook = contactFacebook;
-    }
-
-    public String getContactLinkedin() {
-        return contactLinkedin;
-    }
-
-    public void setContactLinkedin(String contactLinkedin) {
-        this.contactLinkedin = contactLinkedin;
-    }
-
-    public String getContactGithub() {
-        return contactGithub;
-    }
-
-    public void setContactGithub(String contactGithub) {
-        this.contactGithub = contactGithub;
     }
 
     public String getWork() {
@@ -139,23 +61,31 @@ public class AboutMeVo{
         this.skillset = skillset;
     }
 
+    public String getInterest() {
+        return interest;
+    }
+
+    public void setInterest(String interest) {
+        this.interest = interest;
+    }
+
+    public String getAward() {
+        return award;
+    }
+
+    public void setAward(String award) {
+        this.award = award;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
-                "displayname=" + displayName +
-                ", email=" + email +
-                ", phone=" + phone +
-                ", simple_description=" + simpleDescription +
-                ", description=" + description +
-                ", location=" + location +
-                ", education=" + education +
-                ", avatar=" + avatar +
-                ", contact_facebook=" + contactFacebook +
-                ", contact_linkedin=" + contactLinkedin +
-                ", contact_github=" + contactGithub +
-                ", work=" + work +
-                ", skillset=" + skillset +
-                "}";
+        return "AboutMeVo{" +
+                "education='" + education + '\'' +
+                ", work='" + work + '\'' +
+                ", skillset='" + skillset + '\'' +
+                ", interest='" + interest + '\'' +
+                ", award='" + award + '\'' +
+                '}';
     }
 
 }

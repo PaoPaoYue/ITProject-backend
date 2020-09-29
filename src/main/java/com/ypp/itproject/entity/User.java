@@ -25,9 +25,6 @@ public class User extends Model<User> {
 
     private String password;
 
-    /**
-     * Used for customised URL
-     */
     private String username;
 
     private String email;
@@ -61,6 +58,10 @@ public class User extends Model<User> {
     private String work;
 
     private String skillset;
+
+    private String interest;
+
+    private String award;
 
     public Integer getUid() {
         return uid;
@@ -196,36 +197,51 @@ public class User extends Model<User> {
         this.skillset = skillset;
     }
 
+    public String getInterest() {
+        return interest;
+    }
+
+    public void setInterest(String interest) {
+        this.interest = interest;
+    }
+
+    public String getAward() {
+        return award;
+    }
+
+    public void setAward(String award) {
+        this.award = award;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.uid;
     }
 
-
-
     @Override
     public String toString() {
         return "User{" +
-        "uid=" + uid +
-        ", password=" + password +
-        ", username=" + username +
-        ", email=" + email +
-        ", status=" + status +
-        ", description=" + description +
-        ", location=" + location +
-        ", createTime=" + createTime +
-        ", tag=" + tag +
-        ", phone=" + phone +
-        ", simpleDescription=" + simpleDescription +
-        ", education=" + education +
-        ", avatar=" + avatar +
-        ", displayName=" + displayName +
-        ", contactFacebook=" + contactFacebook +
-        ", contactLinkedin=" + contactLinkedin +
-        ", contactGithub=" + contactGithub +
-        ", work=" + work +
-        ", skillset=" + skillset +
-        "}";
+                "uid=" + uid +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", status=" + status +
+                ", description='" + description + '\'' +
+                ", location='" + location + '\'' +
+                ", createTime=" + createTime +
+                ", tag='" + tag + '\'' +
+                ", phone='" + phone + '\'' +
+                ", simpleDescription='" + simpleDescription + '\'' +
+                ", education='" + education + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", contactFacebook='" + contactFacebook + '\'' +
+                ", contactLinkedin='" + contactLinkedin + '\'' +
+                ", contactGithub='" + contactGithub + '\'' +
+                ", work='" + work + '\'' +
+                ", skillset='" + skillset + '\'' +
+                ", interest='" + interest + '\'' +
+                ", award='" + award + '\'' +
+                '}';
     }
 
     public boolean isEmpty() throws IllegalAccessException {

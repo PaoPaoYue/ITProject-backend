@@ -1,6 +1,6 @@
 package com.ypp.itproject.exception;
 
-public class RestException extends Exception {
+public class RestException extends RuntimeException {
 
     private int code;
     private String message;

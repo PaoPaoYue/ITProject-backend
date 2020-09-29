@@ -2,17 +2,24 @@ package com.ypp.itproject.service;
 
 import com.ypp.itproject.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ypp.itproject.exception.RestException;
+import com.ypp.itproject.vo.*;
+
+import java.util.Set;
 
 /**
  * <p>
  *  服务类
  * </p>
  *
- * @author ethan
+ * @author ypp
  * @since 2020-09-22
  */
 public interface IUserService extends IService<User> {
-    public boolean checkLength(User user);
+    User register(RegisterVo vo);
+    User login(LoginVo vo);
+    boolean updatePassword(int uid, PasswordVo vo);
+    boolean updateAccount(int uid, AccountVo vo);
+    boolean updateAboutMe(int uid, AboutMeVo vo);
+    boolean updateTags(int uid, Set<String> tags);
 }
 

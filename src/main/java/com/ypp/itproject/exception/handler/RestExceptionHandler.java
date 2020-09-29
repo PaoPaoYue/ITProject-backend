@@ -14,7 +14,7 @@ public class RestExceptionHandler {
     @ExceptionHandler(RestException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ResponseBody
-    public Object handleRestException(RestException e) {
+    public RestExceptionVo handleRestException(RestException e) {
         return new RestExceptionVo(e);
     }
 }
