@@ -1,9 +1,8 @@
 package com.ypp.itproject;
 
-import com.ypp.itproject.entity.Student;
-import com.ypp.itproject.jwt.config.JwtProperties;
-import com.ypp.itproject.jwt.core.JwtManager;
-import com.ypp.itproject.service.IStudentService;
+import com.ypp.itproject.exception.RestException;
+import com.ypp.itproject.service.IUserService;
+import com.ypp.itproject.vo.*;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,22 +20,68 @@ class ItprojectApplicationTests {
 	ApplicationContext ioc;
 
 	@Autowired
-	JwtManager manager;
+	IUserService service;
 
 	@Test
-	void contextLoads() {
-		Assert.notNull(manager, "get student failed");
-		logger.info("success");
+	void loginSuccess() {
+		LoginVo vo = new LoginVo();
+		vo.setUsername("paopao");
+		vo.setPassword("py970529");
+		Assert.notNull(service.login(vo), "login failed");
 	}
-
-	private static final String usernamePattern = "^\\w{3,20}$";
-    private static final String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)\\w{8,20}$";
 
 	@Test
-	void playground() {
-		logger.debug(String.valueOf("22222222".matches(passwordPattern)));
-		logger.debug(String.valueOf("aaaaaaaa".matches(passwordPattern)));
-		logger.debug(String.valueOf("2222222_".matches(passwordPattern)));
+	void duplicateRegister() {
+		RegisterVo vo = new RegisterVo();
+		vo.setUsername("paopao");
+		vo.setEmail("846260131@qq.com");
+		vo.setPassword("py970529");
+		try {
+			service.register(vo);
+		} catch (RestException e) {
+			Assert.state(e.getCode() == 1, "check duplicate failed");
+			Assert.state(e.getMessage().equals("user already exist"), "duplicate message wrong");
+		}
 	}
+
+	@Test
+	void duplicatePassword() {
+		PasswordVo vo = new PasswordVo();
+		vo.setPassword("py970529");
+		try {
+			service.updatePassword(7, vo);
+		} catch (RestException e) {
+			Assert.state(e.getCode() == 1, "check duplicate failed");
+			Assert.state(e.getMessage().equals("new password cannot be the same as the old one"),
+					"duplicate message wrong");
+		}
+	}
+
+	@Test
+	void updateAccount() {
+		AccountVo vo = new AccountVo();
+		vo.setEmail("846260131@qq.com");
+		vo.setDisplayName("PaoPaoYue");
+		vo.setSimpleDescription("");
+		vo.setAvatar("");
+		vo.setLocation("unknown, unknown");
+		vo.setPhone("");
+		vo.setContactFacebook("");
+		vo.setContactLinkedin("");
+		vo.setContactGithub("");
+		Assert.isTrue(service.updateAccount(7, vo), "update account failed");
+	}
+
+	@Test
+	void updateAboutMe() {
+		AboutMeVo vo = new AboutMeVo();
+		vo.setEducation("[]");
+		vo.setWork("[]");
+		vo.setSkillset("{\"field\":[], \"tech\":[], \"other\":[]}");
+		vo.setInterest("[]");
+		vo.setAward("[]");
+		Assert.isTrue(service.updateAboutMe(7, vo), "update about_me failed");
+	}
+
 
 }
