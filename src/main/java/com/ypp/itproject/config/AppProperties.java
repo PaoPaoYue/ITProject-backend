@@ -23,10 +23,6 @@ public class AppProperties {
     private String cosImgBucket;
     @NotBlank
     private String cosFileBucket;
-    @NotBlank
-    private String cosImgPath;
-    @NotBlank
-    private String cosFilePath;
 
     public String getQcloudAppId() {
         return qcloudAppId;
@@ -84,33 +80,14 @@ public class AppProperties {
         this.cosFileBucket = cosFileBucket;
     }
 
-    public String getCosImgPath() {
-        return cosImgPath;
-    }
-
-    public void setCosImgPath(String cosImgPath) {
-        this.cosImgPath = cosImgPath;
-    }
-
-    public String getCosFilePath() {
-        return cosFilePath;
-    }
-
-    public void setCosFilePath(String cosFilePath) {
-        this.cosFilePath = cosFilePath;
-    }
-
     @Override
     public String toString() {
         return "AppProperties{" +
                 "qcloudAppId='" + qcloudAppId + '\'' +
-                ", qcloudSecretID='" + qcloudSecretId + '\'' +
                 ", cosRegion='" + cosRegion + '\'' +
                 ", cosMaxAge=" + cosMaxAge +
                 ", cosImgBucket='" + cosImgBucket + '\'' +
                 ", cosFileBucket='" + cosFileBucket + '\'' +
-                ", cosImgPath='" + cosImgPath + '\'' +
-                ", cosFilePath='" + cosFilePath + '\'' +
                 '}';
     }
 }

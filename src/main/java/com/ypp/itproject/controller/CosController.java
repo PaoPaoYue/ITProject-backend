@@ -1,14 +1,15 @@
 package com.ypp.itproject.controller;
 
 import com.tencent.cloud.CosStsClient;
+import com.ypp.itproject.jwt.JwtUtil;
 import com.ypp.itproject.jwt.annotation.CheckLogin;
-import org.json.JSONObject;
+import com.ypp.itproject.service.ICosService;
+import com.ypp.itproject.vo.auth.UserAuthVo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * <p>
@@ -22,12 +23,10 @@ import java.util.TreeMap;
 @RequestMapping("/cos")
 public class CosController {
 
-    private final TreeMap<String, Object> imgCosConfig;
-    private final TreeMap<String, Object> fileCosConfig;
+    private final ICosService service;
 
-    public CosController(TreeMap<String, Object> imgCosConfig, TreeMap<String, Object> fileCosConfig) {
-        this.imgCosConfig = imgCosConfig;
-        this.fileCosConfig = fileCosConfig;
+    public CosController(ICosService service) {
+        this.service = service;
     }
 
     /**
@@ -39,8 +38,10 @@ public class CosController {
     @GetMapping("/sts/img")
     public Map<String, Object> getCosImgCred () {
         try {
+            UserAuthVo vo = (UserAuthVo) JwtUtil.extract();
+            int uid = vo.getUid();
             //成功返回临时密钥信息
-            return CosStsClient.getCredential(imgCosConfig).toMap();
+            return CosStsClient.getCredential(service.getImgSecret(uid)).toMap();
         } catch (Exception e) {
             //失败抛出异常
             throw new IllegalArgumentException("no valid secret !");
@@ -56,8 +57,10 @@ public class CosController {
     @GetMapping("/sts/file")
     public Map<String, Object> getCosFileCred () {
         try {
+            UserAuthVo vo = (UserAuthVo) JwtUtil.extract();
+            int uid = vo.getUid();
             //成功返回临时密钥信息
-            return CosStsClient.getCredential(fileCosConfig).toMap();
+            return CosStsClient.getCredential(service.getFileSecret(uid)).toMap();
         } catch (Exception e) {
             //失败抛出异常
             throw new IllegalArgumentException("no valid secret !");

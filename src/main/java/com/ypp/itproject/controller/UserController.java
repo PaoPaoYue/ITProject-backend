@@ -6,6 +6,7 @@ import com.ypp.itproject.entity.User;
 import com.ypp.itproject.exception.RestException;
 import com.ypp.itproject.jwt.JwtUtil;
 import com.ypp.itproject.jwt.annotation.CheckLogin;
+import com.ypp.itproject.service.ICosService;
 import com.ypp.itproject.service.IUserService;
 import com.ypp.itproject.vo.AccountVo;
 import com.ypp.itproject.vo.PasswordVo;
@@ -34,13 +35,23 @@ public class UserController {
     private static final String LINKEDIN_PREFIX = "https://www.linkedin.com/";
     private static final String GITHUB_PREFIX = "https://github.com/";
 
-    private final AppProperties prop;
-
     private final IUserService service;
+    private final ICosService cosService;
 
-    public UserController(AppProperties prop, IUserService service) {
-        this.prop = prop;
+    public UserController(IUserService service, ICosService cosService) {
         this.service = service;
+        this.cosService = cosService;
+    }
+
+    /**
+        Using this API to authenticate a user
+
+        @author: ypp
+     */
+    @CheckLogin
+    @GetMapping(value = "/auth")
+    public SuccessWapper authenticate() {
+        return new SuccessWapper(true);
     }
 
     /**
@@ -79,8 +90,8 @@ public class UserController {
         // cannot modify username
         vo.setUsername(null);
 
-        if (!vo.getAvatar().isEmpty() && !vo.getAvatar().startsWith(prop.getCosImgPath()))
-            throw new RestException(0, "invalid avatar source, must start with " + prop.getCosImgPath());
+        if (!vo.getAvatar().isEmpty() && !vo.getAvatar().startsWith(cosService.getImgPrefix()))
+            throw new RestException(0, "invalid avatar source, must start with " + cosService.getImgPrefix());
         if (!vo.getContactFacebook().isEmpty() && !vo.getContactFacebook().startsWith(FACEBOOK_PREFIX))
             throw new RestException(0, "invalid Facebook link, must start with " + FACEBOOK_PREFIX);
         if (!vo.getContactGithub().isEmpty() && !vo.getContactGithub().startsWith(GITHUB_PREFIX))
