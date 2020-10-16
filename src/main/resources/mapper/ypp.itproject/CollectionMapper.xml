@@ -11,6 +11,8 @@
         <result column="collection_type" property="collectionType" />
         <result column="create_date" property="createDate" />
         <result column="tag" property="tag" />
+        <result column="is_draft" property="isDraft" />
+        <result column="cover_img" property="coverImg" />
     </resultMap>
 
 </mapper>

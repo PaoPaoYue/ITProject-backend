@@ -7,14 +7,14 @@ import org.springframework.stereotype.Controller;
 
 /**
  * <p>
- * Collection of the contents 前端控制器
+ *  前端控制器
  * </p>
  *
  * @author ethan
  * @since 2020-10-16
  */
 @Controller
-@RequestMapping("/ypp.itproject/collection")
-public class CollectionController {
+@RequestMapping("/ypp.itproject/pdfContent")
+public class PdfContentController {
 
 }

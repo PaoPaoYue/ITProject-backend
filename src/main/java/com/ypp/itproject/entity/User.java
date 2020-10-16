@@ -3,8 +3,6 @@ package com.ypp.itproject.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
-
-import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
@@ -13,8 +11,8 @@ import java.io.Serializable;
  * 
  * </p>
  *
- * @author ypp
- * @since 2020-09-23
+ * @author ethan
+ * @since 2020-10-16
  */
 public class User extends Model<User> {
 
@@ -25,6 +23,9 @@ public class User extends Model<User> {
 
     private String password;
 
+    /**
+     * Used for customised URL
+     */
     private String username;
 
     private String email;
@@ -196,7 +197,6 @@ public class User extends Model<User> {
     public void setSkillset(String skillset) {
         this.skillset = skillset;
     }
-
     public String getInterest() {
         return interest;
     }
@@ -204,7 +204,6 @@ public class User extends Model<User> {
     public void setInterest(String interest) {
         this.interest = interest;
     }
-
     public String getAward() {
         return award;
     }
@@ -221,38 +220,27 @@ public class User extends Model<User> {
     @Override
     public String toString() {
         return "User{" +
-                "uid=" + uid +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", status=" + status +
-                ", description='" + description + '\'' +
-                ", location='" + location + '\'' +
-                ", createTime=" + createTime +
-                ", tag='" + tag + '\'' +
-                ", phone='" + phone + '\'' +
-                ", simpleDescription='" + simpleDescription + '\'' +
-                ", education='" + education + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", displayName='" + displayName + '\'' +
-                ", contactFacebook='" + contactFacebook + '\'' +
-                ", contactLinkedin='" + contactLinkedin + '\'' +
-                ", contactGithub='" + contactGithub + '\'' +
-                ", work='" + work + '\'' +
-                ", skillset='" + skillset + '\'' +
-                ", interest='" + interest + '\'' +
-                ", award='" + award + '\'' +
-                '}';
-    }
-
-    public boolean isEmpty() throws IllegalAccessException {
-        Boolean flag=false;
-        for(Field f : this.getClass().getDeclaredFields()){
-            f.setAccessible(true);
-            if(f.get(this) == null || f.get(this).equals("")){
-                flag = true;
-                return flag;
-            }
-        }
-        return flag;
+        "uid=" + uid +
+        ", password=" + password +
+        ", username=" + username +
+        ", email=" + email +
+        ", status=" + status +
+        ", description=" + description +
+        ", location=" + location +
+        ", createTime=" + createTime +
+        ", tag=" + tag +
+        ", phone=" + phone +
+        ", simpleDescription=" + simpleDescription +
+        ", education=" + education +
+        ", avatar=" + avatar +
+        ", displayName=" + displayName +
+        ", contactFacebook=" + contactFacebook +
+        ", contactLinkedin=" + contactLinkedin +
+        ", contactGithub=" + contactGithub +
+        ", work=" + work +
+        ", skillset=" + skillset +
+        ", interest=" + interest +
+        ", award=" + award +
+        "}";
     }
 }
