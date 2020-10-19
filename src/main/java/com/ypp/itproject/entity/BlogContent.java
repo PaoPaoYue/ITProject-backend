@@ -19,8 +19,6 @@ public class BlogContent extends Model<BlogContent> {
 
     private String text;
 
-    private Integer collectionCid;
-
     public String getCid() {
         return cid;
     }
@@ -35,13 +33,6 @@ public class BlogContent extends Model<BlogContent> {
     public void setText(String text) {
         this.text = text;
     }
-    public Integer getCollectionCid() {
-        return collectionCid;
-    }
-
-    public void setCollectionCid(Integer collectionCid) {
-        this.collectionCid = collectionCid;
-    }
 
     @Override
     protected Serializable pkVal() {
@@ -53,7 +44,6 @@ public class BlogContent extends Model<BlogContent> {
         return "BlogContent{" +
         "cid=" + cid +
         ", text=" + text +
-        ", collectionCid=" + collectionCid +
         "}";
     }
 }

@@ -23,8 +23,6 @@ public class PdfContent extends Model<PdfContent> {
 
     private String filetype;
 
-    private Integer collectionCid;
-
     public String getCid() {
         return cid;
     }
@@ -53,13 +51,6 @@ public class PdfContent extends Model<PdfContent> {
     public void setFiletype(String filetype) {
         this.filetype = filetype;
     }
-    public Integer getCollectionCid() {
-        return collectionCid;
-    }
-
-    public void setCollectionCid(Integer collectionCid) {
-        this.collectionCid = collectionCid;
-    }
 
     @Override
     protected Serializable pkVal() {
@@ -73,7 +64,6 @@ public class PdfContent extends Model<PdfContent> {
         ", link=" + link +
         ", filename=" + filename +
         ", filetype=" + filetype +
-        ", collectionCid=" + collectionCid +
         "}";
     }
 }
