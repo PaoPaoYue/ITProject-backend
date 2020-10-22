@@ -1,6 +1,6 @@
 package com.ypp.itproject.mapper;
 
-import com.ypp.itproject.entity.Content;
+import com.ypp.itproject.entity.BlogContent;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author ethan
  * @since 2020-10-16
  */
-public interface ContentMapper extends BaseMapper<Content> {
+public interface BlogContentMapper extends BaseMapper<BlogContent> {
 
 }

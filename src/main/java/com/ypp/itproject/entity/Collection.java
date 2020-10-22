@@ -12,7 +12,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author ethan
- * @since 2020-09-22
+ * @since 2020-10-16
  */
 public class Collection extends Model<Collection> {
 
@@ -44,6 +44,10 @@ public class Collection extends Model<Collection> {
     private LocalDate createDate;
 
     private String tag;
+
+    private Boolean isDraft;
+
+    private String coverImg;
 
     public Integer getCid() {
         return cid;
@@ -94,6 +98,20 @@ public class Collection extends Model<Collection> {
     public void setTag(String tag) {
         this.tag = tag;
     }
+    public Boolean getIsDraft() {
+        return isDraft;
+    }
+
+    public void setIsDraft(Boolean isDraft) {
+        this.isDraft = isDraft;
+    }
+    public String getCoverImg() {
+        return coverImg;
+    }
+
+    public void setCoverImg(String coverImg) {
+        this.coverImg = coverImg;
+    }
 
     @Override
     protected Serializable pkVal() {
@@ -110,6 +128,8 @@ public class Collection extends Model<Collection> {
         ", collectionType=" + collectionType +
         ", createDate=" + createDate +
         ", tag=" + tag +
+        ", isDraft=" + isDraft +
+        ", coverImg=" + coverImg +
         "}";
     }
 }

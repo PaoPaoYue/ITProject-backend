@@ -11,7 +11,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author ethan
- * @since 2020-09-22
+ * @since 2020-10-16
  */
 public class Content extends Model<Content> {
 

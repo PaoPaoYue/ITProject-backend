@@ -44,9 +44,9 @@ public class UserController {
     }
 
     /**
-        Using this API to authenticate a user
+     Using this API to authenticate a user
 
-        @author: ypp
+     @author: ypp
      */
     @CheckLogin
     @GetMapping(value = "/auth")
@@ -55,10 +55,10 @@ public class UserController {
     }
 
     /**
-        Using this API to get user information for preview display
+     Using this API to get user information for preview display
 
-        @author: ypp
-        @author: ethan
+     @author: ypp
+     @author: ethan
      */
     @GetMapping(value = "/account/{uid}")
     public AccountVo getAccount(@PathVariable("uid") int uid){
@@ -76,13 +76,13 @@ public class UserController {
 
 
     /**
-        Using this API to update fields relates to account settings, which listed below.
-        It can be used to update partial fields relates to user table, with only provide
-        partial key:value pairs in the Payload. Please be aware that username cannot be
-        changed。
+     Using this API to update fields relates to account settings, which listed below.
+     It can be used to update partial fields relates to user table, with only provide
+     partial key:value pairs in the Payload. Please be aware that username cannot be
+     changed。
 
-        @author: ypp
-        @author: ethan
+     @author: ypp
+     @author: ethan
      */
     @CheckLogin
     @PostMapping(value = "/account/update")
@@ -107,14 +107,14 @@ public class UserController {
 
 
     /**
-        Using this API to update a user's password. User must log in first.
-        Password must differ from the exist one, and matches the patter as well.
+     Using this API to update a user's password. User must log in first.
+     Password must differ from the exist one, and matches the patter as well.
 
-        The payload of this API should only contain password field, as the other submitted
-        fields will be ignored.
+     The payload of this API should only contain password field, as the other submitted
+     fields will be ignored.
 
-        @author: ypp
-        @author: ethan
+     @author: ypp
+     @author: ethan
 
      */
     @CheckLogin
