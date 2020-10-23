@@ -1,15 +1,17 @@
 package com.ypp.itproject.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.ypp.itproject.util.ContentEnumConverter;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
 import java.util.Locale;
-import java.util.TreeMap;
 
 @Configuration
 @EnableConfigurationProperties(AppProperties.class)
@@ -42,5 +44,12 @@ public class AppConfiguration {
         }
     }
 
+    @Configuration
+    public class WebConfig implements WebMvcConfigurer {
+        @Override
+        public void addFormatters(FormatterRegistry registry) {
+            registry.addConverter(new ContentEnumConverter());
+        }
+    }
 
 }

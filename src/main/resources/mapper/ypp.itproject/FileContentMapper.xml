@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ypp.itproject.mybatis.mapper.BlogContentMapper">
+<mapper namespace="com.ypp.itproject.mapper.FileContentMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.ypp.itproject.mybatis.entity.BlogContent">
+    <resultMap id="BaseResultMap" type="com.ypp.itproject.entity.FileContent">
         <id column="cid" property="cid" />
-        <result column="text" property="text" />
+        <result column="file" property="file" />
         <result column="last_update" property="lastUpdate" />
     </resultMap>
 

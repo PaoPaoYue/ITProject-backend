@@ -46,7 +46,7 @@ public class SearchController {
         }
         Collection allCollection = new Collection();
         allCollection.setUid(uid);
-        allCollection.setIsDraft(false);//is not a draft
+        allCollection.setDraft(false);//is not a draft
         QueryWrapper<Collection> queryWrapper = new QueryWrapper<Collection>(allCollection);
         List resultList=collectionService.listObjs(queryWrapper);
         if(resultList.isEmpty()){

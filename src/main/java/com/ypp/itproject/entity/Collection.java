@@ -1,9 +1,9 @@
 package com.ypp.itproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import java.time.LocalDateTime;
 import java.io.Serializable;
 
 /**
@@ -11,8 +11,8 @@ import java.io.Serializable;
  * Collection of the contents
  * </p>
  *
- * @author ethan
- * @since 2020-10-16
+ * @author ypp
+ * @since 2020-10-23
  */
 public class Collection extends Model<Collection> {
 
@@ -21,8 +21,8 @@ public class Collection extends Model<Collection> {
     /**
      * Collection ID, collection of single, multiple contents
      */
-    @TableId(value = "cid", type = IdType.AUTO)
-    private Integer cid;
+    @TableId(value = "cid", type = IdType.UUID)
+    private String cid;
 
     /**
      * This collection belongs to which user id
@@ -41,7 +41,7 @@ public class Collection extends Model<Collection> {
 
     private String collectionType;
 
-    private LocalDate createDate;
+    private LocalDateTime createTime;
 
     private String tag;
 
@@ -49,11 +49,13 @@ public class Collection extends Model<Collection> {
 
     private String coverImg;
 
-    public Integer getCid() {
+    private Integer view;
+
+    public String getCid() {
         return cid;
     }
 
-    public void setCid(Integer cid) {
+    public void setCid(String cid) {
         this.cid = cid;
     }
     public Integer getUid() {
@@ -84,12 +86,12 @@ public class Collection extends Model<Collection> {
     public void setCollectionType(String collectionType) {
         this.collectionType = collectionType;
     }
-    public LocalDate getCreateDate() {
-        return createDate;
+    public LocalDateTime getCreateTime() {
+        return createTime;
     }
 
-    public void setCreateDate(LocalDate createDate) {
-        this.createDate = createDate;
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
     }
     public String getTag() {
         return tag;
@@ -98,11 +100,11 @@ public class Collection extends Model<Collection> {
     public void setTag(String tag) {
         this.tag = tag;
     }
-    public Boolean getIsDraft() {
+    public Boolean getDraft() {
         return isDraft;
     }
 
-    public void setIsDraft(Boolean isDraft) {
+    public void setDraft(Boolean isDraft) {
         this.isDraft = isDraft;
     }
     public String getCoverImg() {
@@ -111,6 +113,13 @@ public class Collection extends Model<Collection> {
 
     public void setCoverImg(String coverImg) {
         this.coverImg = coverImg;
+    }
+    public Integer getView() {
+        return view;
+    }
+
+    public void setView(Integer view) {
+        this.view = view;
     }
 
     @Override
@@ -126,10 +135,11 @@ public class Collection extends Model<Collection> {
         ", title=" + title +
         ", description=" + description +
         ", collectionType=" + collectionType +
-        ", createDate=" + createDate +
+        ", createTime=" + createTime +
         ", tag=" + tag +
         ", isDraft=" + isDraft +
         ", coverImg=" + coverImg +
+        ", view=" + view +
         "}";
     }
 }
