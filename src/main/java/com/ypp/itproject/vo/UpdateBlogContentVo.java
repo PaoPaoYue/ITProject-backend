@@ -4,15 +4,17 @@ import com.ypp.itproject.entity.BlogContent;
 
 import javax.validation.constraints.NotNull;
 
-public class BlogContentVo extends ContentVo {
+public class UpdateBlogContentVo {
 
+    @NotNull
     private String text;
 
-    public BlogContentVo() {}
+    public UpdateBlogContentVo() {}
 
-    public BlogContentVo(BlogContent blogContent) {
-        this.text = blogContent.getText();
-        this.lastUpdate = blogContent.getLastUpdate();
+    public BlogContent toBlogContent() {
+        BlogContent fileContent = new BlogContent();
+        fileContent.setText(this.text);
+        return fileContent;
     }
 
     public String getText() {
@@ -25,9 +27,8 @@ public class BlogContentVo extends ContentVo {
 
     @Override
     public String toString() {
-        return "BlogContentVo{" +
+        return "UpdatePostBlogVo{" +
                 "text='" + text + '\'' +
-                ", lastUpdate=" + lastUpdate +
                 '}';
     }
 }

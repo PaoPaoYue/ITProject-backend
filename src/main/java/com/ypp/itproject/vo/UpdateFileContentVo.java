@@ -4,15 +4,17 @@ import com.ypp.itproject.entity.FileContent;
 
 import javax.validation.constraints.NotNull;
 
-public class FileContentVo extends ContentVo {
+public class UpdateFileContentVo {
 
+    @NotNull
     private String file;
 
-    public FileContentVo() {}
+    public UpdateFileContentVo() {}
 
-    public FileContentVo(FileContent fileContent) {
-        this.file = fileContent.getFile();
-        this.lastUpdate = fileContent.getLastUpdate();
+    public FileContent toFileContent() {
+        FileContent fileContent = new FileContent();
+        fileContent.setFile(this.file);
+        return fileContent;
     }
 
     public String getFile() {
@@ -25,9 +27,8 @@ public class FileContentVo extends ContentVo {
 
     @Override
     public String toString() {
-        return "FileContentVo{" +
+        return "UpdatePostFileVo{" +
                 "file='" + file + '\'' +
-                ", lastUpdate=" + lastUpdate +
                 '}';
     }
 }

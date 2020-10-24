@@ -14,7 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -37,6 +39,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     private static final HashFunction hf = Hashing.sha256();
 
+    private static final int TAGS_MAX_NUM = 20;
+
     @Override
     public User register(RegisterVo vo) {
         if (this.getOne(new QueryWrapper<User>().eq("username", vo.getUsername())) != null)
@@ -54,7 +58,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setAward(AWARD_INIT);
 
         if (this.save(user)) {
-            logger.debug("new register: " + vo.getUsername());
             return user;
         }
         return null;
@@ -68,7 +71,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (!user.getPassword().equals(hf.hashString(vo.getPassword(), Charsets.UTF_8).toString()))
             throw new RestException(2, "password incorrect");
 
-        logger.debug("new login: " + vo.getUsername());
         return user;
     }
 
@@ -86,7 +88,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public boolean updateAccount(int uid, AccountVo vo) {
-        logger.debug(vo.toString());
         User user = vo.toUser();
         user.setUid(uid);
         return this.updateById(user);
@@ -100,11 +101,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public boolean updateTags(int uid, Set<String> tags) {
-        User user = new User();
-        user.setUid(uid);
+    public boolean addTags(int uid, Set<String> newTags) {
+        User user = this.getById(uid);
+        if (user == null) return false;
+        Set<String> tags = Arrays.stream(user.getTag().split(",")).collect(Collectors.toSet());
+        tags.addAll(newTags);
+        tags = tags.stream().limit(TAGS_MAX_NUM).collect(Collectors.toSet());
         user.setTag(String.join(",", tags));
         return this.updateById(user);
+    }
+
+    @Override
+    public Set<String> getTags(int uid) {
+        User user = this.getById(uid);
+        if (user == null) return null;
+        return Arrays.stream(user.getTag().split(",")).collect(Collectors.toSet());
     }
 }
 

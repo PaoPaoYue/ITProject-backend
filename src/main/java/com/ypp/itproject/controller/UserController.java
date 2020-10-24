@@ -1,7 +1,5 @@
 package com.ypp.itproject.controller;
 
-
-import com.ypp.itproject.config.AppProperties;
 import com.ypp.itproject.entity.User;
 import com.ypp.itproject.exception.RestException;
 import com.ypp.itproject.jwt.JwtUtil;
@@ -12,11 +10,14 @@ import com.ypp.itproject.vo.AccountVo;
 import com.ypp.itproject.vo.PasswordVo;
 import com.ypp.itproject.vo.auth.UserAuthVo;
 import com.ypp.itproject.vo.util.SuccessWapper;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import java.util.Set;
 
 /**
  * <p>
@@ -27,6 +28,7 @@ import javax.validation.Valid;
  * @author: ethan
  * @since 2020-09-23
  */
+@Validated
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -61,11 +63,7 @@ public class UserController {
      @author: ethan
      */
     @GetMapping(value = "/account/{uid}")
-    public AccountVo getAccount(@PathVariable("uid") int uid){
-        if(uid<=0){
-            // uid less and equal to zero
-            throw new RestException(0, "uid must be larger than 0");
-        }
+    public AccountVo getAccount(@PathVariable("uid") @Min(1) int uid){
         User user = service.getById(uid);
         if(user == null){
             // user does not exist
@@ -125,5 +123,10 @@ public class UserController {
         int uid = userAuthVo.getUid();
 
         return new SuccessWapper(service.updatePassword(uid, vo));
+    }
+
+    @GetMapping(value = "/tag/{uid}")
+    public Set<String> getTags(@PathVariable("uid") @Min(1) int uid) {
+        return service.getTags(uid);
     }
 }

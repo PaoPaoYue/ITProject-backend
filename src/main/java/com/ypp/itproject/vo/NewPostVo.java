@@ -6,9 +6,9 @@ import javax.validation.constraints.Size;
 
 public class NewPostVo {
     @NotNull
-    public ContentEnum collectionType;
+    private ContentEnum collectionType;
     @NotBlank @Size(max = 200)
-    public String title;
+    private String title;
 
     public ContentEnum getCollectionType() {
         return collectionType;

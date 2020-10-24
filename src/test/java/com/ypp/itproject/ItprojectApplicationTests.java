@@ -1,6 +1,10 @@
 package com.ypp.itproject;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ypp.itproject.entity.Collection;
 import com.ypp.itproject.exception.RestException;
+import com.ypp.itproject.mapper.CollectionMapper;
+import com.ypp.itproject.service.ICollectionService;
 import com.ypp.itproject.service.IUserService;
 import com.ypp.itproject.vo.*;
 import org.junit.jupiter.api.Test;
@@ -21,6 +25,14 @@ class ItprojectApplicationTests {
 
 	@Autowired
 	IUserService service;
+
+	@Autowired
+	ICollectionService collectionService;
+
+	@Test
+	void test() {
+		throw new RestException(0, "233333");
+	}
 
 	@Test
 	void loginSuccess() {

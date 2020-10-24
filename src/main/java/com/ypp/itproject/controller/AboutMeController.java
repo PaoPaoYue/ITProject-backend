@@ -8,9 +8,11 @@ import com.ypp.itproject.vo.AboutMeVo;
 import com.ypp.itproject.jwt.annotation.CheckLogin;
 import com.ypp.itproject.vo.auth.UserAuthVo;
 import com.ypp.itproject.vo.util.SuccessWapper;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 /**
  * <p>
@@ -21,6 +23,7 @@ import javax.validation.Valid;
  * @author: ethan
  * @since 2020-09-23
  */
+@Validated
 @RestController
 @RequestMapping("/user")
 public class AboutMeController {
@@ -37,12 +40,7 @@ public class AboutMeController {
         @author: ethan
      */
     @GetMapping(value = "/about/{uid}")
-    public AboutMeVo getAboutMe(@PathVariable("uid") int uid) {
-
-        if(uid<=0){
-            // uid less and equal to zero
-            throw new RestException(0, "uid must be larger than 0");
-        }
+    public AboutMeVo getAboutMe(@PathVariable("uid") @Min(1) int uid) {
         User user = service.getById(uid);
         if(user == null){
             // user does not exist

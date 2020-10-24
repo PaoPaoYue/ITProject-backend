@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -22,6 +23,8 @@ public class BlogContent extends Model<BlogContent> {
 
     private String text;
 
+    private LocalDateTime lastUpdate;
+
     public String getCid() {
         return cid;
     }
@@ -37,6 +40,14 @@ public class BlogContent extends Model<BlogContent> {
         this.text = text;
     }
 
+    public LocalDateTime getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(LocalDateTime lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.cid;
@@ -45,8 +56,9 @@ public class BlogContent extends Model<BlogContent> {
     @Override
     public String toString() {
         return "BlogContent{" +
-        "cid=" + cid +
-        ", text=" + text +
-        "}";
+                "cid='" + cid + '\'' +
+                ", text='" + text + '\'' +
+                ", lastUpdate=" + lastUpdate +
+                '}';
     }
 }
