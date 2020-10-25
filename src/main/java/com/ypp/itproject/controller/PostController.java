@@ -1,6 +1,5 @@
 package com.ypp.itproject.controller;
 
-import com.ypp.itproject.exception.RestException;
 import com.ypp.itproject.jwt.JwtUtil;
 import com.ypp.itproject.jwt.annotation.CheckLogin;
 import com.ypp.itproject.jwt.exception.CheckPermissionException;
@@ -40,9 +39,7 @@ public class PostController {
 
     @GetMapping(value = "/{cid}")
     public PostVo getPost(@PathVariable("cid") @Size(min=32, max=32) String cid) {
-        PostVo vo = service.getPost(cid);
-        if (vo == null) throw new RestException(1, "post not found");
-        return vo;
+        return service.getPost(cid, false);
     }
 
     @GetMapping(value = "/all/{uid}")
@@ -56,10 +53,11 @@ public class PostController {
     }
 
     @CheckLogin
-    @GetMapping(value = "/draft")
-    public List<PostPreviewVo> getDrafts() {
+    @GetMapping(value = "/draft/{uid}")
+    public List<PostPreviewVo> getDrafts(@PathVariable @Min(1) int uid) {
         UserAuthVo userAuthVo = (UserAuthVo) JwtUtil.extract();
-        int uid = userAuthVo.getUid();
+        if(userAuthVo.getUid() != uid) throw new CheckPermissionException();
+
         return service.getAllDrafts(uid);
     }
 
@@ -85,6 +83,17 @@ public class PostController {
         if (!service.verifyAuthor(cid, uid)) throw new CheckPermissionException();
 
         return new SuccessWapper(service.deletePost(cid));
+    }
+
+    @CheckLogin
+    @GetMapping(value = "/edit/{cid}")
+    public PostVo editPost(@PathVariable("cid") @Size(min=32, max=32) String cid) {
+        UserAuthVo userAuthVo = (UserAuthVo) JwtUtil.extract();
+        int uid = userAuthVo.getUid();
+
+        if (!service.verifyAuthor(cid, uid)) throw new CheckPermissionException();
+
+        return service.getPost(cid, true);
     }
 
     @CheckLogin

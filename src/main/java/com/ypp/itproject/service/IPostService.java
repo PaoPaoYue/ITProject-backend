@@ -7,7 +7,7 @@ import java.util.List;
 public interface IPostService {
     boolean verifyAuthor(String cid, int uid);
 
-    PostVo getPost(String cid);
+    PostVo getPost(String cid, boolean getDraft);
     List<PostPreviewVo> getTopPosts(int uid);
     List<PostPreviewVo> getAllPosts(int uid);
     List<PostPreviewVo> getAllDrafts(int uid);

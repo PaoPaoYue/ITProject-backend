@@ -2,23 +2,23 @@ package com.ypp.itproject.vo;
 
 public class PostVo {
 
-    private PostPreviewVo preview;
+    private PostPreviewVo info;
     private ContentVo content;
 
     public PostVo() {
     }
 
-    public PostVo(PostPreviewVo preview, ContentVo content) {
-        this.preview = preview;
+    public PostVo(PostPreviewVo info, ContentVo content) {
+        this.info = info;
         this.content = content;
     }
 
-    public PostPreviewVo getPreview() {
-        return preview;
+    public PostPreviewVo getInfo() {
+        return info;
     }
 
-    public void setPreview(PostPreviewVo preview) {
-        this.preview = preview;
+    public void setInfo(PostPreviewVo info) {
+        this.info = info;
     }
 
     public ContentVo getContent() {
@@ -32,7 +32,7 @@ public class PostVo {
     @Override
     public String toString() {
         return "PostVo{" +
-                "preview=" + preview +
+                "info=" + info +
                 ", content=" + content +
                 '}';
     }

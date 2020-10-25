@@ -37,10 +37,10 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public PostVo getPost(String cid) {
+    public PostVo getPost(String cid, boolean getDraft) {
         Collection collection =  collectionService.getById(cid);
         if (collection == null) throw new RestException(1, "post not found");
-//        if (collection.getDraft()) throw new RestException(2, "post not published");
+        if (!getDraft && collection.getIsDraft()) throw new RestException(2, "post not published");
 
         PostPreviewVo previewVo = new PostPreviewVo(collection);
         ContentVo contentVo;
@@ -59,7 +59,7 @@ public class PostServiceImpl implements IPostService {
                 return null;
         }
 
-        collectionService.updateView(cid);
+        if(!getDraft) collectionService.updateView(cid);
         return new PostVo(previewVo, contentVo);
     }
 
@@ -83,7 +83,7 @@ public class PostServiceImpl implements IPostService {
     public String createPost(int uid, NewPostVo vo) {
         Collection collection = new Collection();
         collection.setUid(uid);
-        collection.setDraft(true);
+        collection.setIsDraft(true);
         collection.setTitle(vo.getTitle());
         collection.setCollectionType(vo.getCollectionType().toString());
         collectionService.save(collection);
@@ -117,6 +117,7 @@ public class PostServiceImpl implements IPostService {
     @Override
     @Transactional(rollbackFor=Exception.class)
     public boolean updatePostInfo(String cid, int uid, UpdatePostInfoVo vo) {
+        vo.setTag(vo.getTag().stream().map(String::toLowerCase).map(String::trim).collect(Collectors.toSet()));
         Collection collection = vo.toCollection();
         collection.setCid(cid);
 

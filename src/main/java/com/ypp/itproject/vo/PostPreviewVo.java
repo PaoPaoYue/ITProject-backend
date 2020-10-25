@@ -18,6 +18,8 @@ public class PostPreviewVo {
 
     private ContentEnum collectionType;
 
+    private Boolean isDraft;
+
     @JsonSerialize(using = LocalDateTimeConverter.class)
     private LocalDateTime createTime;
 
@@ -36,6 +38,7 @@ public class PostPreviewVo {
         this.title = collection.getTitle();
         this.description = collection.getDescription();
         this.collectionType = ContentEnum.valueOf(collection.getCollectionType());
+        this.isDraft = collection.getIsDraft();
         this.createTime = collection.getCreateTime();
         this.tag = collection.getTag();
         this.coverImg = collection.getCoverImg();
@@ -83,6 +86,14 @@ public class PostPreviewVo {
         this.collectionType = collectionType;
     }
 
+    public Boolean getIsDraft() {
+        return isDraft;
+    }
+
+    public void setIsDraft(Boolean draft) {
+        isDraft = draft;
+    }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -122,7 +133,8 @@ public class PostPreviewVo {
                 ", uid=" + uid +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", collectionType='" + collectionType + '\'' +
+                ", collectionType=" + collectionType +
+                ", isDraft=" + isDraft +
                 ", createTime=" + createTime +
                 ", tag='" + tag + '\'' +
                 ", coverImg='" + coverImg + '\'' +

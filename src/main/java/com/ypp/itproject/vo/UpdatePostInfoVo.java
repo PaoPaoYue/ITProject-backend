@@ -25,7 +25,7 @@ public class UpdatePostInfoVo {
         collection.setTitle(this.title);
         collection.setDescription(this.description);
         collection.setTag(this.tag.stream().reduce((a, b)-> (a + "," + b)).get());
-        collection.setDraft(this.isDraft);
+        collection.setIsDraft(this.isDraft);
         collection.setCoverImg(this.coverImg);
         return collection;
     }
@@ -54,11 +54,11 @@ public class UpdatePostInfoVo {
         this.tag = tag;
     }
 
-    public Boolean getDraft() {
+    public Boolean getIsDraft() {
         return isDraft;
     }
 
-    public void setDraft(Boolean draft) {
+    public void setIsDraft(Boolean draft) {
         isDraft = draft;
     }
 

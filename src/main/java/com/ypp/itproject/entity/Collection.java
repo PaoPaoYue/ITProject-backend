@@ -100,11 +100,11 @@ public class Collection extends Model<Collection> {
     public void setTag(String tag) {
         this.tag = tag;
     }
-    public Boolean getDraft() {
+    public Boolean getIsDraft() {
         return isDraft;
     }
 
-    public void setDraft(Boolean isDraft) {
+    public void setIsDraft(Boolean isDraft) {
         this.isDraft = isDraft;
     }
     public String getCoverImg() {
