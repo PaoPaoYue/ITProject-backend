@@ -9,10 +9,15 @@
         <result column="title" property="title" />
         <result column="description" property="description" />
         <result column="collection_type" property="collectionType" />
-        <result column="create_date" property="createDate" />
+        <result column="create_time" property="createTime" />
         <result column="tag" property="tag" />
         <result column="is_draft" property="isDraft" />
         <result column="cover_img" property="coverImg" />
+        <result column="view" property="view" />
     </resultMap>
+
+    <update id="updateView" parameterType="java.lang.String" >
+        update collection set `view`=`view`+1 where cid = #{cid};
+    </update>
 
 </mapper>

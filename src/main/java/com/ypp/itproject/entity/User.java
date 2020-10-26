@@ -23,9 +23,6 @@ public class User extends Model<User> {
 
     private String password;
 
-    /**
-     * Used for customised URL
-     */
     private String username;
 
     private String email;

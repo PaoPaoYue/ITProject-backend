@@ -20,6 +20,7 @@ public interface IUserService extends IService<User> {
     boolean updatePassword(int uid, PasswordVo vo);
     boolean updateAccount(int uid, AccountVo vo);
     boolean updateAboutMe(int uid, AboutMeVo vo);
-    boolean updateTags(int uid, Set<String> tags);
+    boolean addTags(int uid, Set<String> newTags);
+    Set<String> getTags(int uid);
 }
 

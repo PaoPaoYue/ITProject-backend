@@ -6,7 +6,7 @@
     <resultMap id="BaseResultMap" type="com.ypp.itproject.entity.BlogContent">
         <id column="cid" property="cid" />
         <result column="text" property="text" />
-        <result column="collection_cid" property="collectionCid" />
+        <result column="last_update" property="lastUpdate" />
     </resultMap>
 
 </mapper>
