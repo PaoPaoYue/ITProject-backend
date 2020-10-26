@@ -17,23 +17,36 @@ public class PostServiceImpl implements IPostService {
 
     private static final int TOP_LIMIT=5;
 
+    private final IRedisService redisService;
     private final ICollectionService collectionService;
     private final IBlogContentService blogContentService;
     private final IFileContentService fileContentService;
     private final IUserService userService;
 
-    public PostServiceImpl(ICollectionService collectionService, IBlogContentService blogContentService,
-                           IFileContentService fileContentService, IUserService userService) {
+    public PostServiceImpl(IRedisService redisService,
+                           ICollectionService collectionService,
+                           IBlogContentService blogContentService,
+                           IFileContentService fileContentService,
+                           IUserService userService) {
+        this.redisService = redisService;
         this.collectionService = collectionService;
         this.blogContentService = blogContentService;
         this.fileContentService = fileContentService;
         this.userService = userService;
     }
 
+
     @Override
     public boolean verifyAuthor(String cid, int uid) {
+        Integer record = redisService.getInteger(cid);
+        if (record != null && record == uid) return true;
+
         Collection collection = collectionService.getById(cid);
-        return (collection != null) && (collection.getUid().equals(uid));
+        if (collection != null && collection.getUid().equals(uid)) {
+            redisService.setInteger(cid, uid);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -111,6 +124,7 @@ public class PostServiceImpl implements IPostService {
 
     @Override
     public boolean deletePost(String cid) {
+        redisService.deleteInteger(cid);
         return collectionService.removeById(cid);
     }
 

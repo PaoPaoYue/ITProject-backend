@@ -18,7 +18,7 @@ import java.util.List;
  *      Search Users based on display_name
  * </p>
  *
- * @author: ethan
+ * @author: ypp ethan
  * @since 2020-09-23
  */
 @Validated
