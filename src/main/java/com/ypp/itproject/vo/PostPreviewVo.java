@@ -5,6 +5,9 @@ import com.ypp.itproject.entity.Collection;
 import com.ypp.itproject.util.LocalDateTimeConverter;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PostPreviewVo {
 
@@ -23,7 +26,7 @@ public class PostPreviewVo {
     @JsonSerialize(using = LocalDateTimeConverter.class)
     private LocalDateTime createTime;
 
-    private String tag;
+    private Set<String> tag;
 
     private String coverImg;
 
@@ -40,7 +43,7 @@ public class PostPreviewVo {
         this.collectionType = ContentEnum.valueOf(collection.getCollectionType());
         this.isDraft = collection.getIsDraft();
         this.createTime = collection.getCreateTime();
-        this.tag = collection.getTag();
+        this.tag = Arrays.stream(collection.getTag().split(",")).collect(Collectors.toSet());
         this.coverImg = collection.getCoverImg();
         this.view = collection.getView();
     }
@@ -102,11 +105,11 @@ public class PostPreviewVo {
         this.createTime = createTime;
     }
 
-    public String getTag() {
+    public Set<String> getTag() {
         return tag;
     }
 
-    public void setTag(String tag) {
+    public void setTag(Set<String> tag) {
         this.tag = tag;
     }
 
