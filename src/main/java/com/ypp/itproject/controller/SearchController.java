@@ -46,7 +46,7 @@ public class SearchController {
     public List<PostPreviewVo> searchPosts(@PathVariable("uid") @Min(1) int uid,
                                            @RequestParam(required = false) String title,
                                            @RequestParam(required = false) String category,
-                                           @RequestParam(required = false) String tag){
+                                           @RequestParam(required = false) String tag) {
         /*
             This method is used for search API with single params:
                 title
@@ -55,5 +55,4 @@ public class SearchController {
          */
         return searchService.searchUserPosts(uid, title, category, tag);
     }
-
 }
