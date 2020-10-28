@@ -11,6 +11,6 @@ import java.time.ZoneOffset;
 public class LocalDateTimeConverter extends JsonSerializer<LocalDateTime> {
     @Override
     public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        gen.writeNumber(value.toInstant(ZoneOffset.of("+8")).toEpochMilli());
+        gen.writeNumber(value.toInstant(ZoneOffset.of("+0")).toEpochMilli());
     }
 }
