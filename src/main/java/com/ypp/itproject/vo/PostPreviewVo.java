@@ -6,6 +6,7 @@ import com.ypp.itproject.util.LocalDateTimeConverter;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,7 +44,10 @@ public class PostPreviewVo {
         this.collectionType = ContentEnum.valueOf(collection.getCollectionType());
         this.isDraft = collection.getIsDraft();
         this.createTime = collection.getCreateTime();
-        this.tag = Arrays.stream(collection.getTag().split(",")).collect(Collectors.toSet());
+        if (collection.getTag().isEmpty())
+            this.tag = new HashSet<>();
+        else
+            this.tag = Arrays.stream(collection.getTag().split(",")).collect(Collectors.toSet());
         this.coverImg = collection.getCoverImg();
         this.view = collection.getView();
     }

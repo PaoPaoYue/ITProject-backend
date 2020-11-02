@@ -114,7 +114,7 @@ public class PostServiceImpl implements IPostService {
             case PDF:
                 FileContent fileContent = new FileContent();
                 fileContent.setCid(cid);
-                fileContent.setFile("[]");
+                fileContent.setFile("");
                 fileContentService.save(fileContent);
                 break;
         }
