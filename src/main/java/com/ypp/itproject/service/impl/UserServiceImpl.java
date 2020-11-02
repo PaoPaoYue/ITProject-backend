@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -104,7 +105,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public boolean addTags(int uid, Set<String> newTags) {
         User user = this.getById(uid);
         if (user == null) return false;
-        Set<String> tags = Arrays.stream(user.getTag().split(",")).collect(Collectors.toSet());
+        Set<String> tags;
+        if (user.getTag().isEmpty())
+            tags = new HashSet<>();
+        else
+            tags = Arrays.stream(user.getTag().split(",")).collect(Collectors.toSet());
         tags.addAll(newTags);
         tags = tags.stream().limit(TAGS_MAX_NUM).collect(Collectors.toSet());
         user.setTag(String.join(",", tags));
@@ -115,7 +120,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public Set<String> getTags(int uid) {
         User user = this.getById(uid);
         if (user == null) return null;
-        return Arrays.stream(user.getTag().split(",")).collect(Collectors.toSet());
+        if (user.getTag().isEmpty())
+            return new HashSet<>();
+        else
+            return Arrays.stream(user.getTag().split(",")).collect(Collectors.toSet());
     }
 }
 
