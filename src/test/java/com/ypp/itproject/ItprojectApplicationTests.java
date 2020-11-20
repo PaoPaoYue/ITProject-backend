@@ -77,7 +77,6 @@ class ItprojectApplicationTests {
 		} catch (RestException e) {
 			Assert.state(e.getCode() == 1, "check username failed");
 			Assert.state(e.getMessage().equals("username not found"), "error message wrong");
-			logProgress("duplicateRegister");
 		}
 		logProgress("unknownUser");
 	}
@@ -93,7 +92,6 @@ class ItprojectApplicationTests {
 		} catch (RestException e) {
 			Assert.state(e.getCode() == 2, "check password failed");
 			Assert.state(e.getMessage().equals("password incorrect"), "error message wrong");
-			logProgress("duplicateRegister");
 		}
 		logProgress("wrongPassword");
 	}
