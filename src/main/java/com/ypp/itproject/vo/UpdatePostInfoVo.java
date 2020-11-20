@@ -24,7 +24,8 @@ public class UpdatePostInfoVo {
         Collection collection = new Collection();
         collection.setTitle(this.title);
         collection.setDescription(this.description);
-        collection.setTag(this.tag.isEmpty() ? "" : this.tag.stream().reduce((a, b)-> (a + "," + b)).get());
+        if (this.tag == null) collection.setTag(null);
+        else collection.setTag(this.tag.isEmpty() ? "" : this.tag.stream().reduce((a, b)-> (a + "," + b)).get());
         collection.setIsDraft(this.isDraft);
         collection.setCoverImg(this.coverImg);
         return collection;

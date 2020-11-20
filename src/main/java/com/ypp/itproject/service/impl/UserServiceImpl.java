@@ -19,14 +19,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * <p>
- *  服务实现类
- * </p>
- *
- * @author ypp ethan
- * @since 2020-09-22
- */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
@@ -103,6 +95,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public boolean addTags(int uid, Set<String> newTags) {
+        if (newTags == null) return true;
         User user = this.getById(uid);
         if (user == null) return false;
         Set<String> tags;

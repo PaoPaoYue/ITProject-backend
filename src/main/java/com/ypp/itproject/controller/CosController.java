@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  cos授权服务
+ *  cos authorization service controller
  * </p>
  *
  * @author: ypp
@@ -40,10 +40,8 @@ public class CosController {
         try {
             UserAuthVo vo = (UserAuthVo) JwtUtil.extract();
             int uid = vo.getUid();
-            //成功返回临时密钥信息
             return CosStsClient.getCredential(service.getImgSecret(uid)).toMap();
         } catch (Exception e) {
-            //失败抛出异常
             throw new IllegalArgumentException("no valid secret !");
         }
     }
@@ -59,10 +57,8 @@ public class CosController {
         try {
             UserAuthVo vo = (UserAuthVo) JwtUtil.extract();
             int uid = vo.getUid();
-            //成功返回临时密钥信息
             return CosStsClient.getCredential(service.getFileSecret(uid)).toMap();
         } catch (Exception e) {
-            //失败抛出异常
             throw new IllegalArgumentException("no valid secret !");
         }
     }

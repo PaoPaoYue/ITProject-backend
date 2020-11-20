@@ -16,7 +16,7 @@ import javax.validation.constraints.Min;
 
 /**
  * <p>
- *  user详情页面
+ *  user detail info controller
  * </p>
  *
  * @author: ypp

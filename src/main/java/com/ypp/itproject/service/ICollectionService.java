@@ -5,14 +5,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
-/**
- * <p>
- * Collection of the contents 服务类
- * </p>
- *
- * @author ethan
- * @since 2020-10-16
- */
 public interface ICollectionService extends IService<Collection> {
 
     boolean updateCollection(Collection collection);

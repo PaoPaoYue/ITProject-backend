@@ -37,21 +37,33 @@ public class PostController {
         this.service = service;
     }
 
+    /**
+        Get a published post by cid
+     */
     @GetMapping(value = "/{cid}")
     public PostVo getPost(@PathVariable("cid") @Size(min=32, max=32) String cid) {
         return service.getPost(cid, false);
     }
 
+    /**
+        Get all published posts by uid
+     */
     @GetMapping(value = "/all/{uid}")
     public List<PostPreviewVo> getAllPosts(@PathVariable @Min(1) int uid) {
         return service.getAllPosts(uid);
     }
 
+    /**
+        Get top 5 posts of by uid
+     */
     @GetMapping(value = "/top/{uid}")
     public List<PostPreviewVo> getTopPosts(@PathVariable @Min(1) int uid) {
         return service.getTopPosts(uid);
     }
 
+    /**
+        Get all drafted posts by uid
+     */
     @CheckLogin
     @GetMapping(value = "/draft/{uid}")
     public List<PostPreviewVo> getDrafts(@PathVariable @Min(1) int uid) {
@@ -61,6 +73,9 @@ public class PostController {
         return service.getAllDrafts(uid);
     }
 
+    /**
+        Create a new draft and return the cid
+     */
     @CheckLogin
     @PostMapping(value = "/new")
     public Map<String, String> createPost(@RequestBody @Valid NewPostVo vo) {
@@ -74,6 +89,9 @@ public class PostController {
         return res;
     }
 
+    /**
+        Delete a post by cid
+     */
     @CheckLogin
     @PostMapping(value = "/delete/{cid}")
     public SuccessWapper deletePost(@PathVariable("cid") @Size(min=32, max=32) String cid) {
@@ -85,6 +103,9 @@ public class PostController {
         return new SuccessWapper(service.deletePost(cid));
     }
 
+    /**
+        Get all info of a post (published or drafted) by cid
+     */
     @CheckLogin
     @GetMapping(value = "/edit/{cid}")
     public PostVo editPost(@PathVariable("cid") @Size(min=32, max=32) String cid) {
@@ -96,6 +117,9 @@ public class PostController {
         return service.getPost(cid, true);
     }
 
+    /**
+        Update post meta info
+     */
     @CheckLogin
     @PostMapping(value = "/update/info/{cid}")
     public SuccessWapper updatePostInfo(@PathVariable("cid") @Size(min=32, max=32) String cid,
@@ -108,6 +132,9 @@ public class PostController {
         return new SuccessWapper(service.updatePostInfo(cid, uid, vo));
     }
 
+    /**
+        Update blog content post
+     */
     @CheckLogin
     @PostMapping(value = "/update/blog/{cid}")
     public SuccessWapper updateBlogContent(@PathVariable("cid") @Size(min=32, max=32) String cid,
@@ -120,6 +147,9 @@ public class PostController {
         return new SuccessWapper(service.updateBlogContent(cid, vo));
     }
 
+    /**
+        Update pdf content post
+     */
     @CheckLogin
     @PostMapping(value = "/update/pdf/{cid}")
     public SuccessWapper updatePdfContent(@PathVariable("cid") @Size(min=32, max=32) String cid,

@@ -18,7 +18,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  登录授权
+ *  user authorization controller
  * </p>
  *
  * @author ypp

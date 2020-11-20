@@ -9,14 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * <p>
- * Collection of the contents 服务实现类
- * </p>
- *
- * @author ypp
- * @since 2020-10-16
- */
 @Service
 public class CollectionServiceImpl extends ServiceImpl<CollectionMapper, Collection> implements ICollectionService {
 

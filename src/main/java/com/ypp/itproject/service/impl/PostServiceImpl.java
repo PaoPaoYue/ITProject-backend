@@ -131,7 +131,8 @@ public class PostServiceImpl implements IPostService {
     @Override
     @Transactional(rollbackFor=Exception.class)
     public boolean updatePostInfo(String cid, int uid, UpdatePostInfoVo vo) {
-        vo.setTag(vo.getTag().stream().map(String::toLowerCase).map(String::trim).collect(Collectors.toSet()));
+        if (vo.getTag() != null)
+            vo.setTag(vo.getTag().stream().map(String::toLowerCase).map(String::trim).collect(Collectors.toSet()));
         Collection collection = vo.toCollection();
         collection.setCid(cid);
 

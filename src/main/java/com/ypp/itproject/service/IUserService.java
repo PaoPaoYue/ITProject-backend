@@ -6,14 +6,6 @@ import com.ypp.itproject.vo.*;
 
 import java.util.Set;
 
-/**
- * <p>
- *  服务类
- * </p>
- *
- * @author ypp
- * @since 2020-09-22
- */
 public interface IUserService extends IService<User> {
     User register(RegisterVo vo);
     User login(LoginVo vo);

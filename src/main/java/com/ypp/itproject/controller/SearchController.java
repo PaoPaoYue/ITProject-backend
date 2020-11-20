@@ -32,27 +32,31 @@ public class SearchController {
         this.searchService = searchService;
     }
 
+    /**
+        This method will be used for search all users that contain the string name
+
+        @author: ypp
+        @author: ethan
+     */
     @GetMapping(value = "/user")
     public List<AccountVo> searchUser(@RequestParam @NotBlank String name) {
-        /*
-            This method will be used for search all users that contain the string name
-            Case sensitive
-         */
         return searchService.searchUsers(name);
     }
 
+    /**
+        This method is used for search API with single params:
+            title
+            tag
+            category
 
+        @author: ypp
+        @author: ethan
+     */
     @GetMapping(value = "/post/{uid}")
     public List<PostPreviewVo> searchPosts(@PathVariable("uid") @Min(1) int uid,
                                            @RequestParam(required = false) String title,
                                            @RequestParam(required = false) String category,
                                            @RequestParam(required = false) String tag) {
-        /*
-            This method is used for search API with single params:
-                title
-                tag
-                category
-         */
         return searchService.searchUserPosts(uid, title, category, tag);
     }
 }

@@ -21,7 +21,7 @@ import java.util.Set;
 
 /**
  * <p>
- *  user控制器
+ *  user basic info controller
  * </p>
  *
  * @author: ypp
@@ -46,9 +46,9 @@ public class UserController {
     }
 
     /**
-     Using this API to authenticate a user
+        Using this API to authenticate a user
 
-     @author: ypp
+        @author: ypp
      */
     @CheckLogin
     @GetMapping(value = "/auth")
@@ -57,10 +57,10 @@ public class UserController {
     }
 
     /**
-     Using this API to get user information for preview display
+         Using this API to get user information for preview display
 
-     @author: ypp
-     @author: ethan
+         @author: ypp
+         @author: ethan
      */
     @GetMapping(value = "/account/{uid}")
     public AccountVo getAccount(@PathVariable("uid") @Min(1) int uid){
@@ -74,13 +74,13 @@ public class UserController {
 
 
     /**
-     Using this API to update fields relates to account settings, which listed below.
-     It can be used to update partial fields relates to user table, with only provide
-     partial key:value pairs in the Payload. Please be aware that username cannot be
-     changed。
+         Using this API to update fields relates to account settings, which listed below.
+         It can be used to update partial fields relates to user table, with only provide
+         partial key:value pairs in the Payload. Please be aware that username cannot be
+         changed。
 
-     @author: ypp
-     @author: ethan
+         @author: ypp
+         @author: ethan
      */
     @CheckLogin
     @PostMapping(value = "/account/update")

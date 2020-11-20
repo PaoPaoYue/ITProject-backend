@@ -13,15 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
-/**
- * <p>
- *  服务实现类
- * </p>
- *
- * @author ypp
- * @since 2020-10-16
- */
 @Service
 @EnableScheduling
 public class BlogContentServiceImpl extends ServiceImpl<BlogContentMapper, BlogContent> implements IBlogContentService {
